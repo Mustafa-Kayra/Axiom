@@ -5,16 +5,26 @@
 ## Install in 30 seconds
 
 git clone https://github.com/Mustafa-Kayra/axiom.git
+
 cd axiom
+
 For Windows:
+
 python -m venv .venv
+
 .venv\Scripts\activate.bat
+
 For Linux: (bash)
+
 python3 -m venv .venv
+
 source .venv/bin/activate
 
+
 pip install requirements.txt
+
 pip install -e .
+
 aye chat
 
 
