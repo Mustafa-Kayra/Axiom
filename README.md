@@ -1,30 +1,27 @@
-# Aye Chat: AI-powered terminal workspace <img src="https://flagcdn.com/16x12/us.png" width="20" align="top"/> <img src="https://flagcdn.com/16x12/ua.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/nl.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/eu.png" width="20" align="top"/>
+# Axiom: AI-powered coding assistant <img src="https://flagcdn.com/16x12/us.png" width="20" align="top"/> <img src="https://flagcdn.com/16x12/ua.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/nl.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/eu.png" width="20" align="top"/>
 
 **Your terminal, but with AI. Edit files, run commands, chat with AI - all in one session.**
 
 ## Install in 30 seconds
 
-```bash
-$ pip install ayechat
-$ aye chat          # Start in any project
-```
+git clone https://github.com/Mustafa-Kayra/axiom.git
+cd axiom
+For Windows:
+python -m venv .venv
+.venv\Scripts\activate.bat
+For Linux: (bash)
+python3 -m venv .venv
+source .venv/bin/activate
 
-**macOS (Homebrew):**
-```bash
-brew tap acrotron/aye-chat
-brew install aye-chat
-```
+pip install requirements.txt
+pip install -e .
+aye chat
 
-**Windows (Installer):**
-
-Download and run [aye-chat-setup.exe](https://github.com/acrotron/aye-chat/releases/latest/download/aye-chat-setup.exe)
-
-![Aye Chat: The AI-powered terminal workspace](https://raw.githubusercontent.com/acrotron/aye-media/refs/heads/main/files/ai-shell.gif)
 
 ## What it does
 
 ```bash
-$ aye chat
+$ Axiom
 > fix the bug in server.py
 ✓ Fixed undefined variable on line 42
 
@@ -52,8 +49,8 @@ $ aye chat
 - **100% local backups** - Your code is safe, changes stored in `.aye/`
 - **No prefixes** - Just type. Commands run, everything else goes to AI
 
-#### Instant undo with Aye Chat's `Restore`
-Aye Chat's `restore` command provides an instant and reliable safety net for any changes made by the AI. Developers can forge ahead and experiment knowing that application restore is just one simple command away.  
+#### Instant undo with Axiom's `Restore`
+Axiom's `restore` command provides an instant and reliable safety net for any changes made by the AI. Developers can forge ahead and experiment knowing that application restore is just one simple command away.  
 
 **Restore offers fine-grained control:**
 - `restore <ordinal>`:  Lets users revert to a specific historical snapshot (e.g., `001`). This is useful for stepping back through multiple AI interactions.
@@ -69,7 +66,7 @@ These commands provide a comprehensive system for reviewing, managing, and rever
 
 ```bash
 # In your project directory:
-aye chat
+Axiom
 
 > refactor this to use dependency injection
 > pytest
@@ -80,10 +77,10 @@ aye chat
 ## Get started
 
 1. **Install**: `pip install ayechat`
-2. **Start chatting**: `aye chat` in any project folder
+2. **Start chatting**: `Axiom` in any project folder
 
 ## Get started - Windows Installer                                                                                                            
-For Windows users, the recommended way to install Aye Chat is with the official installer. It provides a standalone
+For Windows users, the recommended way to install Axiom is with the official installer. It provides a standalone
 application that requires no manual setup.
 
 #### Installation
@@ -92,14 +89,14 @@ application that requires no manual setup.
 2.  Run the downloaded installer.
 3.  During setup, it is highly recommended to keep the following options enabled:
     - `Add the application directory to your PATH`
-    - `Add 'Open Aye Chat here' to folder context menu`
+    - `Add 'Open Axiom here' to folder context menu`
 
 #### Usage
 
-After installation, you can launch Aye Chat by:
+After installation, you can launch Axiom by:
 
 - Typing `aye` in any terminal.
-- Right-clicking a project folder and selecting **Open Aye Chat here**.                                                                                    
+- Right-clicking a project folder and selecting **Open Axiom here**.                                                                                    
 
 ---
 
@@ -115,9 +112,9 @@ After installation, you can launch Aye Chat by:
 ### Starting a Session
 
 ```bash
-aye chat                          # Start chat with auto-detected files
-aye chat --root ./src             # Specify a different project root
-aye chat --include "*.js,*.css"   # Manually specify which files to include
+Axiom                          # Start chat with auto-detected files
+Axiom --root ./src             # Specify a different project root
+Axiom --include "*.js,*.css"   # Manually specify which files to include
 ```
 
 ### In-Chat Commands
@@ -150,7 +147,7 @@ Your input is handled in this order:
 
 ## Configuration
 
-- Aye Chat respects `.gitignore` and `.ayeignore` - private files are never touched
+- Axiom respects `.gitignore` and `.ayeignore` - private files are never touched
 - Change history and backups stored locally in `.aye/` folder
 - Configure default model and preferences in `~/.ayecfg`
 
@@ -168,7 +165,7 @@ Your input is handled in this order:
 
 ## AGENTS.md inclusion
 
-Aye Chat can automatically include **`AGENTS.md`** as extra *system context* for a repo — perfect for team conventions, architecture notes, and "how we do things here".
+Axiom can automatically include **`AGENTS.md`** as extra *system context* for a repo — perfect for team conventions, architecture notes, and "how we do things here".
 
 **Discovery (first match wins):**
 - `./.aye/AGENTS.md` (highest precedence)
@@ -208,7 +205,7 @@ nix profile install github:acrotron/aye-chat
 
 ## Contributing
 
-Aye Chat is open source! We welcome contributions.
+Axiom is open source! We welcome contributions.
 
 - **Report bugs**: [GitHub Issues](https://github.com/acrotron/aye-chat/issues)
 - **Submit PRs**: Fork and contribute
@@ -227,7 +224,7 @@ review the [DISCLAIMER](DISCLAIMER) before using this software.
 **Ready to code with AI without leaving your terminal?**
 
 ```bash
-pip install ayechat && aye chat
+pip install ayechat && Axiom
 ```
 
 [Wiki](https://github.com/acrotron/aye-chat/wiki) • [Discord](https://discord.gg/ZexraQYH77) • [GitHub](https://github.com/acrotron/aye-chat)
