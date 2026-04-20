@@ -4,6 +4,11 @@
 
 ## Install in 30 seconds
 ```bash
+pip install axiomai-cli
+axiomai chat
+```
+OR
+```bash
 git clone https://github.com/Mustafa-Kayra/axiom.git
 cd axiom
 # For Windows:
