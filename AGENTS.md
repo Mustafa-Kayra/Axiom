@@ -1,10 +1,10 @@
-# AGENTS.md - Aye Chat Project Guidelines
+# AGENTS.md - Axiom Project Guidelines
 
-This file provides context for AI coding assistants working on the Aye Chat codebase.
+This file provides context for AI coding assistants working on the Axiom codebase.
 
 ## Project Overview
 
-**Aye Chat** is an AI-powered terminal workspace that brings AI directly into command-line workflows. It allows developers to edit files, run commands, and chat with their codebase without leaving the terminal.
+**Axiom** is an AI-powered terminal workspace that brings AI directly into command-line workflows. It allows developers to edit files, run commands, and chat with their codebase without leaving the terminal.
 
 ### Core Philosophy
 
@@ -16,7 +16,7 @@ This file provides context for AI coding assistants working on the Aye Chat code
 ## Architecture
 
 ```
-src/aye/
+src/axiomai/
 ├── __main__.py          # CLI entry point (Typer app)
 ├── controller/          # Business logic, command handling
 │   ├── repl.py          # Main chat REPL loop
@@ -375,7 +375,7 @@ Core dependencies (see `pyproject.toml`):
 
 ## AGENTS.md Discovery
 
-Aye Chat automatically discovers and includes `AGENTS.md` files as additional context:
+Axiom automatically discovers and includes `AGENTS.md` files as additional context:
 
 1. `./.aye/AGENTS.md` (highest priority)
 2. `./AGENTS.md` in project root

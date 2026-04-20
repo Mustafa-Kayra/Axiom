@@ -3,8 +3,8 @@ requires = ["setuptools", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ayechat"
-dynamic = ["version"]
+name = "axiomai-cli"
+version = "0.1.1"
 description = "Axiom: Your Coding Assistant"
 readme = "README.md"
 requires-python = ">=3.10, <3.14"
@@ -38,13 +38,8 @@ dev = [
 
 [project.scripts]
 # Console script – after installation `aye` will be on the PATH
-axiom = "aye.__main__:app"
+axiomai = "aye.__main__:app"
 
-[tool.setuptools]
-# Configuration for setuptools
-package-dir = {"" = "src"}          # “src/” is the source root
-packages = ["aye"]                 # the only package we ship
-include-package-data = true
 
 [tool.setuptools_scm]
 # This regex allows setuptools-scm to parse versions from tags with or without a 'v' prefix (e.g., 'v1.2.3' or '1.2.3').

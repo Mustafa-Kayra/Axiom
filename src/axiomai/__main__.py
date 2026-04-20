@@ -5,22 +5,19 @@ from typing import Optional
 from aye.controller import commands, repl
 from aye.presenter import cli_ui
 from aye.presenter.diff_presenter import show_diff
-from aye.model.version_checker import check_version_and_print_warning
 from aye.model.auth import set_user_config
 
-# Check for newer version on startup
-check_version_and_print_warning()
+# Sildiğin version_checker importları ve fonksiyonu buradan temizlendi
 
-app = typer.Typer(help="Aye: AI‑powered coding assistant for the terminal")
+app = typer.Typer(help="Axiom: AI‑powered coding assistant for the terminal")
 
 # ----------------------------------------------------------------------
-# Version callback
+# Version callback (Basitleştirilmiş)
 # ----------------------------------------------------------------------
 
 def _get_package_version() -> str:
-    """Get the version of the installed package (ayechat or ayechat-dev)."""
-    from aye.model.version_checker import get_current_version
-    return get_current_version()
+    """Sabit versiyon döndürür (version_checker silindiği için)."""
+    return "0.1.0-axiom"
 
 def _version_callback(value: bool):
     if value:
@@ -33,7 +30,8 @@ def main(
     version: bool = typer.Option(None, "--version", callback=_version_callback, is_eager=True, help="Show the version and exit."),
 ):
     if ctx.invoked_subcommand is None:
-        typer.echo("Run 'aye --help' to see available commands.")
+        # Komut ismini axiomai olarak güncelledim
+        typer.echo("Run 'axiomai --help' to see available commands.")
 
 # ----------------------------------------------------------------------
 # Auth commands
@@ -43,7 +41,7 @@ app.add_typer(auth_app, name="auth")
 
 @auth_app.command()
 def login():
-    """Configure personal access token for authenticating with the aye service."""
+    """Configure personal access token for authenticating with the axiom service."""
     try:
         commands.login_and_fetch_plugins()
     except Exception as e:
@@ -51,7 +49,7 @@ def login():
 
 @auth_app.command()
 def logout():
-    """Remove the stored aye credentials."""
+    """Remove the stored axiom credentials."""
     commands.logout()
     cli_ui.print_generic_message("🔐 Token removed.")
 
@@ -74,7 +72,6 @@ def chat(
     ground_truth: str = typer.Option(None, "--ground-truth", "-g", hidden=True, help="Path to file containing custom system prompt"),
 ):
     """Start an interactive REPL."""
-    # Centralized context and index preparation
     conf = commands.initialize_project_context(root, file_mask, ground_truth)
     repl.chat_repl(conf)
 
@@ -102,9 +99,6 @@ def restore(ordinal: str = typer.Argument(None, help="Snapshot ID to restore (de
     try:
         commands.restore_from_snapshot(ordinal, file_name)
         cli_ui.print_restore_feedback(ordinal, file_name)
-
-        # Persist a global flag so we stop showing the restore breadcrumb tip.
-        # NOTE: tutorial restore does NOT hit this code path.
         set_user_config("has_used_restore", "on")
     except Exception as exc:
         cli_ui.print_generic_message(f"Error: {exc}", is_error=True)
