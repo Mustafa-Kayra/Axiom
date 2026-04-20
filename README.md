@@ -3,30 +3,19 @@
 **Your terminal, but with AI. Edit files, run commands, chat with AI - all in one session.**
 
 ## Install in 30 seconds
-
+```bash
 git clone https://github.com/Mustafa-Kayra/axiom.git
-
 cd axiom
-
-For Windows:
-
+# For Windows:
 python -m venv .venv
-
 .venv\Scripts\activate.bat
-
-For Linux: (bash)
-
+# For Linux: (bash)
 python3 -m venv .venv
-
 source .venv/bin/activate
-
-
 pip install requirements.txt
-
 pip install -e .
-
 aye chat
-
+```
 
 ## What it does
 
