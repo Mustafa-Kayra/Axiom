@@ -69,7 +69,7 @@ def _prompt_for_telemetry_consent_if_needed() -> bool:
     if isinstance(current, str) and current.lower() in {"on", "off"}:
         return current.lower() == "on"
 
-    rprint("\n[bold cyan]Help improve Aye Chat?[/bold cyan]\n")
+    rprint("\n[bold cyan]Help improve Axiom?[/bold cyan]\n")
     rprint("We'd like to collect [bold]very anonymized[/bold] usage telemetry:")
     rprint("  - only the command name you run (first token)")
     rprint("  - plus '<args>' if it had arguments")
@@ -103,7 +103,7 @@ def _is_feedback_prompt_enabled() -> bool:
     Default:
         on
 
-    This is read from the Aye Chat settings file (~/.ayecfg) via get_user_config,
+    This is read from the Axiom settings file (~/.ayecfg) via get_user_config,
     and can also be overridden via environment variable AYE_FEEDBACK_OPT_IN.
     """
     val = get_user_config(_FEEDBACK_OPT_IN_KEY, "on")
@@ -132,7 +132,7 @@ def collect_and_send_feedback(chat_id: int):
 
     This prompt can be disabled globally with:
         feedback_opt_in=off
-    in the Aye Chat settings file (~/.ayecfg) or via env var AYE_FEEDBACK_OPT_IN.
+    in the Axiom settings file (~/.ayecfg) or via env var AYE_FEEDBACK_OPT_IN.
     """
     if not _is_feedback_prompt_enabled():
         rprint("[cyan]Goodbye![/cyan]")
@@ -149,7 +149,7 @@ def collect_and_send_feedback(chat_id: int):
     try:
         rprint("\n[bold cyan]Before you go:")
         rprint()
-        rprint("[bold cyan]Would you recommend Aye Chat to a friend or colleague?")
+        rprint("[bold cyan]Would you recommend Axiom to a friend or colleague?")
         rprint("[bold cyan]Why or why not?")
         rprint()
         rprint("[dim](Ctrl+C to finish.)")
