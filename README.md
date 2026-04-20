@@ -19,13 +19,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install requirements.txt
 pip install -e .
-axiom
+axiomai chat
 ```
 
 ## What it does
 
 ```bash
-$ Axiom
+$ axiomai chat
 > fix the bug in server.py
 ✓ Fixed undefined variable on line 42
 
@@ -80,38 +80,11 @@ Axiom
 
 ## Get started
 
-1. **Install**: `pip install ayechat`
-2. **Start chatting**: `Axiom` in any project folder
+1. **Install**: `pip install axiomai-cli`
+2. **Start chatting**: `axiomai chat` in any project folder
 
-## Get started - Windows Installer                                                                                                            
-For Windows users, the recommended way to install Axiom is with the official installer. It provides a standalone
-application that requires no manual setup.
 
-#### Installation
 
-1.  Download the latest [aye-chat-setup.exe](https://github.com/acrotron/aye-chat/releases/latest/download/aye-chat-setup.exe) from the GitHub Releases page.
-2.  Run the downloaded installer.
-3.  During setup, it is highly recommended to keep the following options enabled:
-    - `Add the application directory to your PATH`
-    - `Add 'Open Axiom here' to folder context menu`
-
-#### Usage
-
-After installation, you can launch Axiom by:
-
-- Typing `aye` in any terminal.
-- Right-clicking a project folder and selecting **Open Axiom here**.                                                                                    
-
----
-
-<details>
-<summary>📚 Full command reference</summary>
-
-## Core Commands
-
-### Authentication
-
-**Does not require authentication**
 
 ### Starting a Session
 
