@@ -38,7 +38,7 @@ dev = [
 
 [project.scripts]
 # Console script – after installation `aye` will be on the PATH
-axiomai = "aye.__main__:app"
+axiomai = "axiomai.__main__:app"
 
 
 [tool.setuptools_scm]
