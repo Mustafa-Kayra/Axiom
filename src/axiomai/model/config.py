@@ -1,4 +1,4 @@
-"""Configuration management for Aye Chat.
+"""Configuration management for Axiom.
 
 Stores application configuration constants and settings.
 """
@@ -160,6 +160,7 @@ MODELS = [
     {"id": "google/gemini-3-flash-preview", "name": "Google: Gemini 3 Flash Preview", "max_prompt_kb": 340, "max_output_tokens": 32000, "context_target_kb": 250},
     {"id": "openai/gpt-5.1-codex-mini", "name": "OpenAI: GPT-5.1-Codex-Mini", "max_prompt_kb": 220, "max_output_tokens": 32000, "context_target_kb": 200},
     {"id": "moonshotai/kimi-k2-0905", "name": "MoonshotAI: Kimi K2 0905", "max_prompt_kb": 170, "max_output_tokens": 32000, "context_target_kb": 150},
+    {"id": "moonshotai/kimi-k.6", "name": "MoonshotAI: Kimi K6", "max_prompt_kb": 170, "max_output_tokens": 32000, "context_target_kb": 150},
     {"id": "google/gemini-3.1-pro-preview", "name": "Google: Gemini 3.1 Pro Preview", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
     {"id": "anthropic/claude-sonnet-4.5", "name": "Anthropic: Claude Sonnet 4.5", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
     {"id": "anthropic/claude-sonnet-4.6", "name": "Anthropic: Claude Sonnet 4.6", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
