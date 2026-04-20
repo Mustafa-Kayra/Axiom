@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch
 
-from aye.plugins.auto_detect_mask import AutoDetectMaskPlugin
+from axiomai.plugins.auto_detect_mask import AutoDetectMaskPlugin
 
 class TestAutoDetectMaskPlugin(TestCase):
     def setUp(self):

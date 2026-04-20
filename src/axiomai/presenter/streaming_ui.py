@@ -19,7 +19,7 @@ Tailing (viewport follow):
   so the user can scroll back through the entire answer.
 - Controlled via the AYE_STREAM_TAIL env var (default: on).
 """
-from aye.presenter.repl_ui import deep_ocean_theme
+from axiomai.presenter.repl_ui import deep_ocean_theme
 
 import os
 import re

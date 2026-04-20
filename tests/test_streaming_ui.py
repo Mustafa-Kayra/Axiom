@@ -9,7 +9,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-import aye.presenter.streaming_ui as streaming_ui
+import axiomai.presenter.streaming_ui as streaming_ui
 
 
 class FakeLive:

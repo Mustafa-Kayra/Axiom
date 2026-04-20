@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 from pathlib import Path
 
-import aye.model.ast_chunker as ast_chunker
+import axiomai.model.ast_chunker as ast_chunker
 
 class TestAstChunker(unittest.TestCase):
     def test_get_language_from_file_path(self):

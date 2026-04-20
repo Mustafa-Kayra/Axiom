@@ -4,7 +4,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch, MagicMock, call
 
-import aye.model.offline_llm_manager as offline_llm_manager
+import axiomai.model.offline_llm_manager as offline_llm_manager
 
 
 class TestOfflineLlmManager(unittest.TestCase):

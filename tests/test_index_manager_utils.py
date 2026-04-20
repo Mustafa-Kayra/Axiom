@@ -1,7 +1,7 @@
 import hashlib
 from unittest.mock import MagicMock
 
-import aye.model.index_manager.index_manager_utils as utils
+import axiomai.model.index_manager.index_manager_utils as utils
 
 
 def _clear_active_managers():

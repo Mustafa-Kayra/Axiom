@@ -13,7 +13,7 @@ from typing import Dict, List, Optional, Set
 
 from rapidfuzz.fuzz import ratio as _fuzz_ratio
 
-from aye.model.ignore_patterns import load_ignore_patterns
+from axiomai.model.ignore_patterns import load_ignore_patterns
 
 # ---------------------------------------------------------------------------
 # Constants

@@ -6,7 +6,7 @@ import concurrent.futures
 from rich import print as rprint
 
 from .plugin_base import Plugin
-from aye.model.ignore_patterns import load_ignore_patterns
+from axiomai.model.ignore_patterns import load_ignore_patterns
 
 # Predefined list of source code extensions to consider
 SOURCE_EXTENSIONS = {

@@ -7,24 +7,24 @@ from unittest.mock import patch, MagicMock
 
 import httpx
 
-from aye.plugins.databricks_model import (
+from axiomai.plugins.databricks_model import (
     DatabricksModelPlugin,
     _get_model_config,
     _extract_json_object,
 )
-from aye.plugins.model_plugin_utils import (
+from axiomai.plugins.model_plugin_utils import (
     TRUNCATED_RESPONSE_MESSAGE,
     get_conversation_id,
     build_user_message,
     parse_llm_response,
     create_error_response,
 )
-from aye.plugins.plugin_base import Plugin
+from axiomai.plugins.plugin_base import Plugin
 
 
 class TestGetModelConfig(TestCase):
     def test_found(self):
-        import aye.plugins.databricks_model as mod
+        import axiomai.plugins.databricks_model as mod
         original = mod.MODELS
         mod.MODELS = [{"id": "m1", "name": "Model 1"}]
         try:
@@ -33,7 +33,7 @@ class TestGetModelConfig(TestCase):
             mod.MODELS = original
 
     def test_not_found(self):
-        import aye.plugins.databricks_model as mod
+        import axiomai.plugins.databricks_model as mod
         original = mod.MODELS
         mod.MODELS = [{"id": "m1", "name": "Model 1"}]
         try:

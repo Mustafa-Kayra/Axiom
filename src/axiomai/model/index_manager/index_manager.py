@@ -15,10 +15,10 @@ from typing import Dict, Any, List, Optional
 from rich import print as rprint
 from rich.prompt import Confirm
 
-from aye.model.models import VectorIndexResult
-from aye.model.source_collector import get_project_files, get_project_files_with_limit
-from aye.model import vector_db, onnx_manager
-from aye.model.config import SMALL_PROJECT_FILE_LIMIT
+from axiomai.model.models import VectorIndexResult
+from axiomai.model.source_collector import get_project_files, get_project_files_with_limit
+from axiomai.model import vector_db, onnx_manager
+from axiomai.model.config import SMALL_PROJECT_FILE_LIMIT
 
 from .index_manager_utils import register_manager, set_discovery_thread_low_priority
 from .index_manager_file_ops import FileCategorizer, IndexPersistence, get_deleted_files

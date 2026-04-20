@@ -11,7 +11,7 @@ import concurrent.futures
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Callable, TYPE_CHECKING
 
-from aye.model import vector_db
+from axiomai.model import vector_db
 
 from .index_manager_utils import DaemonThreadPoolExecutor, set_low_priority
 

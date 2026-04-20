@@ -2,9 +2,9 @@ import subprocess
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-import aye.plugins.shell_executor
+import axiomai.plugins.shell_executor
 
-from aye.plugins.shell_executor import ShellExecutorPlugin
+from axiomai.plugins.shell_executor import ShellExecutorPlugin
 
 class TestShellExecutorPlugin(TestCase):
     def setUp(self):

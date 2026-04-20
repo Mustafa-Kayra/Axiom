@@ -13,8 +13,8 @@ from pathlib import Path
 
 import httpx
 
-from aye.model.auth import get_token
-from aye.model.api import fetch_plugin_manifest
+from axiomai.model.auth import get_token
+from axiomai.model.api import fetch_plugin_manifest
 
 
 def _is_network_error(exc: Exception) -> bool:

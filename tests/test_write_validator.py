@@ -11,7 +11,7 @@ import sys
 
 # This setup allows the test to be run directly or with a test runner.
 try:
-    from aye.model.write_validator import (
+    from axiomai.model.write_validator import (
         check_files_against_ignore_patterns,
         is_strict_mode_enabled,
         format_ignored_files_warning,
@@ -20,7 +20,7 @@ try:
 except ImportError:
     project_root = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(project_root / "src"))
-    from aye.model.write_validator import (
+    from axiomai.model.write_validator import (
         check_files_against_ignore_patterns,
         is_strict_mode_enabled,
         format_ignored_files_warning,
@@ -280,8 +280,8 @@ class TestLlmHandlerIntegration(unittest.TestCase):
     def test_strict_mode_blocks_ignored_files(self, mock_strict, mock_apply):
         """In strict mode, ignored files should not be written."""
         from unittest.mock import MagicMock
-        from aye.controller.llm_handler import process_llm_response
-        from aye.model.models import LLMResponse
+        from axiomai.controller.llm_handler import process_llm_response
+        from axiomai.model.models import LLMResponse
         from rich.console import Console
 
         # Create .gitignore
@@ -321,8 +321,8 @@ class TestLlmHandlerIntegration(unittest.TestCase):
     def test_non_strict_mode_writes_all_files(self, mock_strict, mock_apply):
         """In non-strict mode, all files should be written (with warning)."""
         from unittest.mock import MagicMock
-        from aye.controller.llm_handler import process_llm_response
-        from aye.model.models import LLMResponse
+        from axiomai.controller.llm_handler import process_llm_response
+        from axiomai.model.models import LLMResponse
         from rich.console import Console
 
         # Create .gitignore

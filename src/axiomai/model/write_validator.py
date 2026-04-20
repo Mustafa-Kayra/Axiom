@@ -9,8 +9,8 @@ See: https://github.com/acrotron/aye-chat/issues/50
 from pathlib import Path
 from typing import List, Dict, Tuple
 
-from aye.model.ignore_patterns import load_ignore_patterns
-from aye.model.auth import get_user_config
+from axiomai.model.ignore_patterns import load_ignore_patterns
+from axiomai.model.auth import get_user_config
 
 
 # Config key for strict mode (block writes to ignored files)

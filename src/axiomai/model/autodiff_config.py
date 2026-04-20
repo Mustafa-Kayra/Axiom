@@ -7,7 +7,7 @@ by an LLM response.
 See: autodiff.md for the full design plan.
 """
 
-from aye.model.auth import get_user_config
+from axiomai.model.auth import get_user_config
 
 
 # Config key for autodiff mode

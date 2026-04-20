@@ -1,6 +1,6 @@
 import unittest
 
-from aye.model import telemetry
+from axiomai.model import telemetry
 
 
 class TestTelemetry(unittest.TestCase):

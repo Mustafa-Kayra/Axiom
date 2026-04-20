@@ -8,8 +8,8 @@ from unittest.mock import patch, MagicMock
 from prompt_toolkit.filters import completion_is_selected
 from prompt_toolkit.keys import Keys
 
-import aye.controller.repl as repl
-from aye.model.config import MODELS
+import axiomai.controller.repl as repl
+from axiomai.model.config import MODELS
 
 
 def _setup_mock_chat_id_path(mock_path, *, exists=False, contents=""):

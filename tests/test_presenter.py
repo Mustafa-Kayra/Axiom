@@ -4,10 +4,10 @@ import tempfile
 from pathlib import Path
 import subprocess
 
-import aye.presenter.cli_ui as cli_ui
-import aye.presenter.diff_presenter as diff_presenter
-import aye.presenter.repl_ui as repl_ui
-import aye.presenter.ui_utils as ui_utils
+import axiomai.presenter.cli_ui as cli_ui
+import axiomai.presenter.diff_presenter as diff_presenter
+import axiomai.presenter.repl_ui as repl_ui
+import axiomai.presenter.ui_utils as ui_utils
 from rich.console import Console
 from rich.spinner import Spinner
 

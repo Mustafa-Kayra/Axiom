@@ -2,10 +2,10 @@ from pathlib import Path
 import typer
 from typing import Optional
 
-from aye.controller import commands, repl
-from aye.presenter import cli_ui
-from aye.presenter.diff_presenter import show_diff
-from aye.model.auth import set_user_config
+from axiomai.controller import commands, repl
+from axiomai.presenter import cli_ui
+from axiomai.presenter.diff_presenter import show_diff
+from axiomai.model.auth import set_user_config
 
 # Sildiğin version_checker importları ve fonksiyonu buradan temizlendi
 

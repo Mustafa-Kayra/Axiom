@@ -31,7 +31,7 @@ from prompt_toolkit.completion import Completer, Completion
 from rich import print as rprint
 
 from .plugin_base import Plugin
-from aye.model.ignore_patterns import load_ignore_patterns
+from axiomai.model.ignore_patterns import load_ignore_patterns
 
 
 class AtFileCompleter(Completer):

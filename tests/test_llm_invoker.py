@@ -5,9 +5,9 @@ import json
 import os
 from pathlib import Path
 
-import aye.controller.llm_invoker as llm_invoker
-from aye.model.models import LLMResponse, LLMSource, VectorIndexResult
-from aye.model.config import SYSTEM_PROMPT, DEFAULT_MAX_OUTPUT_TOKENS
+import axiomai.controller.llm_invoker as llm_invoker
+from axiomai.model.models import LLMResponse, LLMSource, VectorIndexResult
+from axiomai.model.config import SYSTEM_PROMPT, DEFAULT_MAX_OUTPUT_TOKENS
 
 # Default hard limit used in llm_invoker for unknown models
 CONTEXT_HARD_LIMIT = 170 * 1024

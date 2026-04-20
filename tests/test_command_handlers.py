@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch, MagicMock, call
 from prompt_toolkit import PromptSession
 from rich.console import Console
 
-from aye.controller.command_handlers import (
+from axiomai.controller.command_handlers import (
     handle_cd_command,
     handle_model_command,
     handle_verbose_command,

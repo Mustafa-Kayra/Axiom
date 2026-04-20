@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from prompt_toolkit.document import Document
 
-from aye.plugins.slash_completer import SlashCompleter, SlashCompleterPlugin
+from axiomai.plugins.slash_completer import SlashCompleter, SlashCompleterPlugin
 
 
 def _display_text(completion):

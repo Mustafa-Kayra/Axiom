@@ -17,22 +17,22 @@ from rich.console import Console
 from rich import print as rprint
 from rich.prompt import Confirm
 
-from aye.model.api import send_feedback
-from aye.model.auth import get_user_config, set_user_config
-from aye.model.config import MODELS, DEFAULT_MODEL_ID
-from aye.model import telemetry
-from aye.presenter.repl_ui import (
+from axiomai.model.api import send_feedback
+from axiomai.model.auth import get_user_config, set_user_config
+from axiomai.model.config import MODELS, DEFAULT_MODEL_ID
+from axiomai.model import telemetry
+from axiomai.presenter.repl_ui import (
     print_welcome_message,
     print_help_message,
     print_prompt,
     print_error
 )
-from aye.presenter import cli_ui, diff_presenter
-from aye.controller.tutorial import run_first_time_tutorial_if_needed
-from aye.controller.llm_invoker import invoke_llm
-from aye.controller.llm_handler import process_llm_response, handle_llm_error
-from aye.controller import commands
-from aye.controller.command_handlers import (
+from axiomai.presenter import cli_ui, diff_presenter
+from axiomai.controller.tutorial import run_first_time_tutorial_if_needed
+from axiomai.controller.llm_invoker import invoke_llm
+from axiomai.controller.llm_handler import process_llm_response, handle_llm_error
+from axiomai.controller import commands
+from axiomai.controller.command_handlers import (
     handle_cd_command,
     handle_model_command,
     handle_verbose_command,
@@ -45,7 +45,7 @@ from aye.controller.command_handlers import (
     handle_shellcap_command,
     handle_printraw_command,
 )
-from aye.controller.shell_capture import capture_shell_result, maybe_attach_shell_result
+from axiomai.controller.shell_capture import capture_shell_result, maybe_attach_shell_result
 
 DEBUG = False
 plugin_manager = None # HACK: for broken test patch to work

@@ -5,17 +5,17 @@ from pathlib import Path
 from rich.console import Console
 from rich import print as rprint
 
-from aye.model.api import cli_invoke
-from aye.model.models import LLMResponse, LLMSource, VectorIndexResult
-from aye.presenter.streaming_ui import StreamingResponseDisplay, create_streaming_callback
-from aye.presenter.ui_utils import StoppableSpinner, DEFAULT_THINKING_MESSAGES
-from aye.model.source_collector import collect_sources
-from aye.model.auth import get_user_config
-from aye.model.offline_llm_manager import is_offline_model
-from aye.controller.util import is_truncated_json, discover_agents_file
-from aye.model.config import SYSTEM_PROMPT, MODELS, DEFAULT_MAX_OUTPUT_TOKENS, DEFAULT_CONTEXT_TARGET_KB, CONTEXT_HARD_LIMIT_KB
-from aye.model import telemetry
-from aye.model.skills_system import SkillsResolver
+from axiomai.model.api import cli_invoke
+from axiomai.model.models import LLMResponse, LLMSource, VectorIndexResult
+from axiomai.presenter.streaming_ui import StreamingResponseDisplay, create_streaming_callback
+from axiomai.presenter.ui_utils import StoppableSpinner, DEFAULT_THINKING_MESSAGES
+from axiomai.model.source_collector import collect_sources
+from axiomai.model.auth import get_user_config
+from axiomai.model.offline_llm_manager import is_offline_model
+from axiomai.controller.util import is_truncated_json, discover_agents_file
+from axiomai.model.config import SYSTEM_PROMPT, MODELS, DEFAULT_MAX_OUTPUT_TOKENS, DEFAULT_CONTEXT_TARGET_KB, CONTEXT_HARD_LIMIT_KB
+from axiomai.model import telemetry
+from axiomai.model.skills_system import SkillsResolver
 
 import os
 

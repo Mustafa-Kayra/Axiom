@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock
 from pathlib import Path
 import tempfile
 
-import aye.model.vector_db as vector_db
+import axiomai.model.vector_db as vector_db
 
 class TestVectorDb(unittest.TestCase):
     def setUp(self):

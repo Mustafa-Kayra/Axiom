@@ -6,9 +6,9 @@ from unittest.mock import patch, MagicMock
 
 from rich.padding import Padding
 
-import aye.controller.llm_handler as llm_handler
-from aye.model.api import ApiError
-from aye.model.models import LLMResponse, LLMSource
+import axiomai.controller.llm_handler as llm_handler
+from axiomai.model.api import ApiError
+from axiomai.model.models import LLMResponse, LLMSource
 
 
 class TestLlmHandler(TestCase):

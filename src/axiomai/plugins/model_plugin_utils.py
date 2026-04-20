@@ -5,7 +5,7 @@ from pathlib import Path
 
 from rich import print as rprint
 
-from aye.controller.util import is_truncated_json
+from axiomai.controller.util import is_truncated_json
 
 
 # Message shown when LLM response is truncated due to output token limits

@@ -7,9 +7,9 @@ from unittest.mock import patch, MagicMock
 
 import httpx
 
-import aye.model.api as api
-from aye.model.api import ApiError
-from aye.model.auth import get_user_config
+import axiomai.model.api as api
+from axiomai.model.api import ApiError
+from axiomai.model.auth import get_user_config
 
 
 class TestModelApi(TestCase):

@@ -4,7 +4,7 @@ import sys
 from unittest import TestCase
 from unittest.mock import patch, MagicMock, call
 
-from aye.model import version_checker
+from axiomai.model import version_checker
 
 
 class TestVersionChecker(TestCase):

@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-import aye.model.auth as auth
+import axiomai.model.auth as auth
 
 
 class TestAuth(TestCase):

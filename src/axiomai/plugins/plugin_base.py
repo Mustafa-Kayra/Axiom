@@ -6,7 +6,7 @@ This module provides the abstract base class that all plugins must inherit from.
 from abc import ABC
 from typing import Any, Dict, Optional
 from rich import print as rprint
-from aye.model.auth import get_user_config
+from axiomai.model.auth import get_user_config
 
 
 class Plugin(ABC):

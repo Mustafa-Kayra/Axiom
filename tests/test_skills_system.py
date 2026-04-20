@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-from aye.model.skills_system import (
+from axiomai.model.skills_system import (
     Skill,
     SkillsIndex,
     SkillResolutionResult,

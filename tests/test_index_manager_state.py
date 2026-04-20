@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-import aye.model.index_manager.index_manager_state as state
+import axiomai.model.index_manager.index_manager_state as state
 
 
 def test_index_config_properties_and_from_params(monkeypatch, tmp_path):
@@ -207,7 +207,7 @@ def test_initialization_coordinator_ready_path_success(monkeypatch, tmp_path):
     coord = state.InitializationCoordinator(cfg)
 
     # Patch aye.model attributes that the coordinator imports.
-    import aye.model as aye_model
+    import axiomai.model as aye_model
 
     fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
     fake_vector = SimpleNamespace(initialize_index=lambda root: "COLLECTION")
@@ -234,7 +234,7 @@ def test_initialization_coordinator_ready_path_failure_sets_initialized(monkeypa
     cfg = state.IndexConfig(root_path=tmp_path, file_mask="*.py", debug=False)
     coord = state.InitializationCoordinator(cfg)
 
-    import aye.model as aye_model
+    import axiomai.model as aye_model
 
     fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -266,7 +266,7 @@ def test_initialization_coordinator_failed_model_status(monkeypatch, tmp_path):
     cfg = state.IndexConfig(root_path=tmp_path, file_mask="*.py")
     coord = state.InitializationCoordinator(cfg)
 
-    import aye.model as aye_model
+    import axiomai.model as aye_model
 
     fake_onnx = SimpleNamespace(get_model_status=lambda: "FAILED")
     fake_vector = SimpleNamespace(initialize_index=lambda root: "COLLECTION")
@@ -315,7 +315,7 @@ class TestInitializationCoordinatorRecovery:
         hash_index = aye_dir / "file_index.json"
         hash_index.write_text('{"files": {}}')
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -369,7 +369,7 @@ class TestInitializationCoordinatorRecovery:
         chroma_dir = aye_dir / "chroma_db"
         chroma_dir.mkdir()
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -402,7 +402,7 @@ class TestInitializationCoordinatorRecovery:
         coord = state.InitializationCoordinator(cfg)
         coord._recovery_attempted = True  # Simulate previous recovery attempt
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -433,7 +433,7 @@ class TestInitializationCoordinatorRecovery:
         cfg = state.IndexConfig(root_path=tmp_path, file_mask="*.py")
         coord = state.InitializationCoordinator(cfg)
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -468,7 +468,7 @@ class TestInitializationCoordinatorRecovery:
         chroma_dir.mkdir()
         (chroma_dir / "data.db").write_text("corrupt")
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
         import shutil as real_shutil
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
@@ -519,7 +519,7 @@ class TestInitializationCoordinatorRecovery:
         aye_dir = tmp_path / ".aye"
         aye_dir.mkdir()
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 
@@ -555,7 +555,7 @@ class TestInitializationCoordinatorRecovery:
         chroma_dir = aye_dir / "chroma_db"
         chroma_dir.mkdir()
 
-        import aye.model as aye_model
+        import axiomai.model as aye_model
 
         fake_onnx = SimpleNamespace(get_model_status=lambda: "READY")
 

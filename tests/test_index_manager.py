@@ -8,9 +8,9 @@ import sys
 import time
 import threading
 
-import aye.model.index_manager.index_manager as index_manager
-from aye.model.index_manager.index_manager_utils import calculate_hash, set_low_priority
-from aye.model.index_manager.index_manager_file_ops import (
+import axiomai.model.index_manager.index_manager as index_manager
+from axiomai.model.index_manager.index_manager_utils import calculate_hash, set_low_priority
+from axiomai.model.index_manager.index_manager_file_ops import (
     FileStatusChecker, 
     FileCategorizer, 
     IndexPersistence,

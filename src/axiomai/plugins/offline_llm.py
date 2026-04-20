@@ -19,8 +19,8 @@ from .model_plugin_utils import (
     load_history,
     save_history,
 )
-from aye.model.config import SYSTEM_PROMPT
-from aye.model.offline_llm_manager import (
+from axiomai.model.config import SYSTEM_PROMPT
+from axiomai.model.offline_llm_manager import (
     download_model_sync,
     get_model_status,
     get_model_path,

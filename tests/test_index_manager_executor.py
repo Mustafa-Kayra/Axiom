@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-import aye.model.index_manager.index_manager_executor as exec_mod
+import axiomai.model.index_manager.index_manager_executor as exec_mod
 
 
 class FakeFuture:

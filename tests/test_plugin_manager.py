@@ -5,8 +5,8 @@ from typing import Any, Dict
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-from aye.controller.plugin_manager import PluginManager
-from aye.plugins.plugin_base import Plugin
+from axiomai.controller.plugin_manager import PluginManager
+from axiomai.plugins.plugin_base import Plugin
 
 
 class TestPlugin(Plugin):

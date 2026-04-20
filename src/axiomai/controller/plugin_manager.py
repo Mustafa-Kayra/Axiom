@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from rich import print as rprint
-from aye.plugins.plugin_base import Plugin
-from aye.model.auth import get_user_config
+from axiomai.plugins.plugin_base import Plugin
+from axiomai.model.auth import get_user_config
 
 def _is_debug():
     return get_user_config("debug", "off").lower() == "on"

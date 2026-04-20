@@ -11,7 +11,7 @@ import sys
 
 # This setup allows the test to be run directly or with a test runner.
 try:
-    from aye.model.index_manager.index_manager_state import (
+    from axiomai.model.index_manager.index_manager_state import (
         _is_corruption_error,
         _CORRUPTION_INDICATORS,
         InitializationCoordinator,
@@ -20,7 +20,7 @@ try:
 except ImportError:
     project_root = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(project_root / "src"))
-    from aye.model.index_manager.index_manager_state import (
+    from axiomai.model.index_manager.index_manager_state import (
         _is_corruption_error,
         _CORRUPTION_INDICATORS,
         InitializationCoordinator,
@@ -255,7 +255,7 @@ class TestIndexManagerQueryRecovery(unittest.TestCase):
     @patch('aye.model.index_manager.index_manager.rprint')
     def test_query_recovers_from_hnsw_corruption(self, mock_rprint, mock_vector_db, mock_register):
         """query() should recover when HNSW corruption is detected."""
-        from aye.model.index_manager.index_manager import IndexManager
+        from axiomai.model.index_manager.index_manager import IndexManager
 
         # Create manager
         manager = IndexManager(
@@ -290,7 +290,7 @@ class TestIndexManagerQueryRecovery(unittest.TestCase):
     @patch('aye.model.index_manager.index_manager.rprint')
     def test_query_reraises_non_corruption_errors(self, mock_rprint, mock_vector_db, mock_register):
         """query() should re-raise errors that are not corruption-related."""
-        from aye.model.index_manager.index_manager import IndexManager
+        from axiomai.model.index_manager.index_manager import IndexManager
 
         manager = IndexManager(
             root_path=self.root_path,
@@ -318,7 +318,7 @@ class TestIndexManagerQueryRecovery(unittest.TestCase):
     @patch('aye.model.index_manager.index_manager.rprint')
     def test_query_returns_empty_on_recovery_failure(self, mock_rprint, mock_vector_db, mock_register):
         """query() should return empty list if recovery also fails."""
-        from aye.model.index_manager.index_manager import IndexManager
+        from axiomai.model.index_manager.index_manager import IndexManager
 
         manager = IndexManager(
             root_path=self.root_path,
@@ -364,7 +364,7 @@ class TestDeleteRecovery(unittest.TestCase):
     @patch('aye.model.index_manager.index_manager.rprint')
     def test_delete_recovers_from_corruption(self, mock_rprint, mock_vector_db, mock_register):
         """_handle_deleted_files should recover from corruption errors."""
-        from aye.model.index_manager.index_manager import IndexManager
+        from axiomai.model.index_manager.index_manager import IndexManager
 
         manager = IndexManager(
             root_path=self.root_path,
@@ -397,7 +397,7 @@ class TestDeleteRecovery(unittest.TestCase):
     @patch('aye.model.index_manager.index_manager.rprint')
     def test_delete_reraises_non_corruption_errors(self, mock_rprint, mock_vector_db, mock_register):
         """_handle_deleted_files should re-raise non-corruption errors."""
-        from aye.model.index_manager.index_manager import IndexManager
+        from axiomai.model.index_manager.index_manager import IndexManager
 
         manager = IndexManager(
             root_path=self.root_path,

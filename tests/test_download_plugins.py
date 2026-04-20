@@ -8,9 +8,9 @@ from unittest.mock import patch, MagicMock, call
 
 import httpx
 
-import aye.model.download_plugins as dl
-from aye.model.auth import get_token
-from aye.model.api import fetch_plugin_manifest
+import axiomai.model.download_plugins as dl
+from axiomai.model.auth import get_token
+from axiomai.model.api import fetch_plugin_manifest
 from pathlib import Path
 
 

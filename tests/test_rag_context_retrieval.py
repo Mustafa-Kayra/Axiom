@@ -12,13 +12,13 @@ from unittest.mock import MagicMock, patch
 import sys
 
 try:
-    from aye.controller.llm_invoker import _get_rag_context_files, _determine_source_files
-    from aye.model.models import VectorIndexResult
+    from axiomai.controller.llm_invoker import _get_rag_context_files, _determine_source_files
+    from axiomai.model.models import VectorIndexResult
 except ImportError:
     project_root = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(project_root / "src"))
-    from aye.controller.llm_invoker import _get_rag_context_files, _determine_source_files
-    from aye.model.models import VectorIndexResult
+    from axiomai.controller.llm_invoker import _get_rag_context_files, _determine_source_files
+    from axiomai.model.models import VectorIndexResult
 
 
 class TestRagContextRetrieval(unittest.TestCase):

@@ -7,12 +7,12 @@ from prompt_toolkit import PromptSession
 from rich import print as rprint
 from rich.console import Console
 
-from aye.model.auth import get_user_config, set_user_config, delete_user_config
-from aye.model.config import MODELS
-from aye.presenter.repl_ui import print_error
-from aye.controller.llm_invoker import invoke_llm
-from aye.controller.llm_handler import process_llm_response, handle_llm_error
-from aye.controller.shell_capture import maybe_attach_shell_result, SHELLCAP_KEY
+from axiomai.model.auth import get_user_config, set_user_config, delete_user_config
+from axiomai.model.config import MODELS
+from axiomai.presenter.repl_ui import print_error
+from axiomai.controller.llm_invoker import invoke_llm
+from axiomai.controller.llm_handler import process_llm_response, handle_llm_error
+from axiomai.controller.shell_capture import maybe_attach_shell_result, SHELLCAP_KEY
 
 
 def handle_cd_command(tokens: list[str], conf: Any) -> bool:
@@ -331,8 +331,8 @@ def handle_printraw_command() -> None:
     This guarantees we always have the correct text regardless of
     the LLM response object's attribute names.
     """
-    from aye.presenter.repl_ui import get_last_assistant_response
-    from aye.presenter.raw_output import print_assistant_response_raw
+    from axiomai.presenter.repl_ui import get_last_assistant_response
+    from axiomai.presenter.raw_output import print_assistant_response_raw
     print_assistant_response_raw(get_last_assistant_response())
 
 

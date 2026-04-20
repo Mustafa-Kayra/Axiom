@@ -17,8 +17,8 @@ from .model_plugin_utils import (
     load_history,
     save_history,
 )
-from aye.model.config import SYSTEM_PROMPT, MODELS, DEFAULT_MAX_OUTPUT_TOKENS
-from aye.model.auth import get_user_config
+from axiomai.model.config import SYSTEM_PROMPT, MODELS, DEFAULT_MAX_OUTPUT_TOKENS
+from axiomai.model.auth import get_user_config
 
 LLM_TIMEOUT = 600.0
 

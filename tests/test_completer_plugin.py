@@ -5,9 +5,9 @@ from unittest.mock import patch, MagicMock
 from prompt_toolkit.document import Document
 from prompt_toolkit.completion import Completion
 
-import aye.plugins.completer
+import axiomai.plugins.completer
 
-from aye.plugins.completer import (
+from axiomai.plugins.completer import (
     CompleterPlugin,
     CmdPathCompleter,
     CompositeCompleter,
@@ -313,7 +313,7 @@ class TestCmdPathCompleter(TestCase):
     @patch.dict(os.environ, {"AYE_SKIP_PATH_SCAN": "1", "PATH": "C:\\Windows\\System32"})
     def test_windows_builtin_commands_included(self):
         """Windows shell built-in commands (dir, mkdir, etc.) should be included."""
-        from aye.plugins.completer import _WINDOWS_BUILTINS
+        from axiomai.plugins.completer import _WINDOWS_BUILTINS
 
         with patch("aye.plugins.completer.os.path.isdir", return_value=False):
             completer = CmdPathCompleter()

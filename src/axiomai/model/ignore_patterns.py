@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pathspec
 
-from aye.model.config import DEFAULT_IGNORE_SET
+from axiomai.model.config import DEFAULT_IGNORE_SET
 
 
 def load_ignore_patterns(root: Path) -> pathspec.PathSpec:

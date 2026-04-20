@@ -25,7 +25,7 @@ if sys.platform == 'win32':
 if len(sys.argv) == 1:
     sys.argv.append('chat')
 
-from aye.__main__ import app
+from axiomai.__main__ import app
 
 if __name__ == '__main__':
     app()

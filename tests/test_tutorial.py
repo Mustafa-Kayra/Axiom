@@ -4,7 +4,7 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock, call
 import os
 
-from aye.controller import tutorial
+from axiomai.controller import tutorial
 
 class TestTutorial(TestCase):
     def setUp(self):

@@ -12,8 +12,8 @@ SRC_DIR = ROOT_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from aye.plugins.offline_llm import OfflineLLMPlugin
-from aye.plugins.model_plugin_utils import (
+from axiomai.plugins.offline_llm import OfflineLLMPlugin
+from axiomai.plugins.model_plugin_utils import (
     TRUNCATED_RESPONSE_MESSAGE,
     get_conversation_id,
     build_user_message,

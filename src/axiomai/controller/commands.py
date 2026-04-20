@@ -4,18 +4,18 @@ from types import SimpleNamespace
 
 from rich import print as rprint
 
-from aye.model import auth, snapshot, download_plugins, vector_db, onnx_manager
-from aye.controller.plugin_manager import PluginManager
-from aye.controller.util import find_project_root
-from aye.model.index_manager.index_manager import IndexManager
-from aye.model.auth import get_user_config
-from aye.model.config import (
+from axiomai.model import auth, snapshot, download_plugins, vector_db, onnx_manager
+from axiomai.controller.plugin_manager import PluginManager
+from axiomai.controller.util import find_project_root
+from axiomai.model.index_manager.index_manager import IndexManager
+from axiomai.model.auth import get_user_config
+from axiomai.model.config import (
     DEFAULT_MODEL_ID,
     SMALL_PROJECT_FILE_LIMIT,
     SMALL_PROJECT_TOTAL_SIZE_LIMIT,
 )
-from aye.model.snapshot.git_ref_backend import GitRefBackend
-from aye.model.source_collector import get_project_files_with_limit
+from axiomai.model.snapshot.git_ref_backend import GitRefBackend
+from axiomai.model.source_collector import get_project_files_with_limit
 
 
 # --- Auth Commands ---

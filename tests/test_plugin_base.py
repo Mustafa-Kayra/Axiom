@@ -1,7 +1,7 @@
 from unittest import TestCase
 from typing import Dict, Any, Optional
 
-from aye.plugins.plugin_base import Plugin
+from axiomai.plugins.plugin_base import Plugin
 
 
 class DummyPlugin(Plugin):

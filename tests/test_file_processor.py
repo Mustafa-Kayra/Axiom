@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch
 
-from aye.model.file_processor import make_paths_relative, filter_unchanged_files, fix_duplicated_paths
+from axiomai.model.file_processor import make_paths_relative, filter_unchanged_files, fix_duplicated_paths
 
 class TestFileProcessor(TestCase):
     def setUp(self):

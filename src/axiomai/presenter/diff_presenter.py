@@ -19,8 +19,8 @@ from pygments.util import ClassNotFound
 # Keep these imports best-effort to avoid import-time failures in environments
 # where snapshot backends are unavailable.
 try:
-    from aye.model.snapshot import get_backend  # type: ignore
-    from aye.model.snapshot.git_ref_backend import GitRefBackend  # type: ignore
+    from axiomai.model.snapshot import get_backend  # type: ignore
+    from axiomai.model.snapshot.git_ref_backend import GitRefBackend  # type: ignore
 except Exception:  # pragma: no cover
     get_backend = None  # type: ignore
     GitRefBackend = None  # type: ignore
@@ -247,8 +247,8 @@ def show_diff(file1: Union[Path, str], file2: Union[Path, str], is_stash_ref: bo
             # Ensure module-level symbols exist even if earlier best-effort import failed.
             global get_backend, GitRefBackend
             if get_backend is None or GitRefBackend is None:  # pragma: no cover
-                from aye.model.snapshot import get_backend as _get_backend
-                from aye.model.snapshot.git_ref_backend import GitRefBackend as _GitRefBackend
+                from axiomai.model.snapshot import get_backend as _get_backend
+                from axiomai.model.snapshot.git_ref_backend import GitRefBackend as _GitRefBackend
                 get_backend = _get_backend  # type: ignore
                 GitRefBackend = _GitRefBackend  # type: ignore
 

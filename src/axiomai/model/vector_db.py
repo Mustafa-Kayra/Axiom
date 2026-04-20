@@ -14,8 +14,8 @@ import chromadb
 # Use the lightweight ONNX embedding function included with chromadb
 from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 
-from aye.model.models import VectorIndexResult
-from aye.model.ast_chunker import ast_chunker, get_language_from_file_path
+from axiomai.model.models import VectorIndexResult
+from axiomai.model.ast_chunker import ast_chunker, get_language_from_file_path
 
 
 @contextmanager

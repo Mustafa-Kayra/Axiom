@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import aye.model.config as config
+import axiomai.model.config as config
 
 
 class TestConfig(TestCase):

@@ -12,7 +12,7 @@ import pytest
 from rich.console import Console
 from rich.spinner import Spinner
 
-from aye.presenter.ui_utils import (
+from axiomai.presenter.ui_utils import (
     DEFAULT_THINKING_MESSAGES,
     StoppableSpinner,
     thinking_spinner,

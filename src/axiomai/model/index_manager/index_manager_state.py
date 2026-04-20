@@ -347,7 +347,7 @@ class InitializationCoordinator:
         Returns:
             True on success or if already initialized.
         """
-        from aye.model import vector_db, onnx_manager
+        from axiomai.model import vector_db, onnx_manager
         
         # Fast path: already initialized
         if self._is_initialized:
@@ -383,7 +383,7 @@ class InitializationCoordinator:
     
     def _do_initialize(self) -> bool:
         """Perform the actual initialization with corruption recovery."""
-        from aye.model import vector_db
+        from axiomai.model import vector_db
         
         try:
             self.collection = vector_db.initialize_index(self.config.root_path)
@@ -415,7 +415,7 @@ class InitializationCoordinator:
         Returns:
             True if recovery succeeded, False otherwise
         """
-        from aye.model import vector_db
+        from axiomai.model import vector_db
 
         self._recovery_attempted = True
         timestamp = int(time.time())

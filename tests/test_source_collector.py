@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-from aye.model.source_collector import (
+from axiomai.model.source_collector import (
     collect_sources,
     get_project_files,
     get_project_files_with_limit,

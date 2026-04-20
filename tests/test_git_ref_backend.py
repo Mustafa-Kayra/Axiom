@@ -8,7 +8,7 @@ from subprocess import CompletedProcess
 from typing import Any, Dict, List, Optional
 from unittest.mock import MagicMock, patch
 
-from aye.model.snapshot.git_ref_backend import GitRefBackend, _SnapshotRef
+from axiomai.model.snapshot.git_ref_backend import GitRefBackend, _SnapshotRef
 
 
 def cp(args: List[str], returncode: int = 0, stdout: Any = "", stderr: Any = "") -> CompletedProcess:

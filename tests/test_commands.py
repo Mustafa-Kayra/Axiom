@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-import aye.controller.commands as commands
+import axiomai.controller.commands as commands
 
 
 class TestCommands(TestCase):

@@ -19,7 +19,7 @@ from typing import Any, Optional, Tuple
 
 from rich import print as rprint
 
-from aye.model.auth import get_user_config
+from axiomai.model.auth import get_user_config
 
 
 # Config key for shell capture mode

@@ -8,22 +8,22 @@ from rich import print as rprint
 from rich.console import Console
 from rich.padding import Padding
 
-from aye.presenter.repl_ui import (
+from axiomai.presenter.repl_ui import (
     print_assistant_response,
     print_no_files_changed,
     print_files_updated,
     print_error,
     set_last_assistant_response,
 )
-from aye.model.auth import get_user_config
-from aye.presenter.diff_presenter import show_diff
+from axiomai.model.auth import get_user_config
+from axiomai.presenter.diff_presenter import show_diff
 
-from aye.model.api import ApiError
-from aye.model.snapshot import apply_updates, get_diff_base_for_file
-from aye.model.file_processor import make_paths_relative, filter_unchanged_files, fix_duplicated_paths
-from aye.model.models import LLMResponse
-from aye.model.autodiff_config import is_autodiff_enabled
-from aye.model.write_validator import (
+from axiomai.model.api import ApiError
+from axiomai.model.snapshot import apply_updates, get_diff_base_for_file
+from axiomai.model.file_processor import make_paths_relative, filter_unchanged_files, fix_duplicated_paths
+from axiomai.model.models import LLMResponse
+from axiomai.model.autodiff_config import is_autodiff_enabled
+from axiomai.model.write_validator import (
     check_files_against_ignore_patterns,
     is_strict_mode_enabled,
     format_ignored_files_warning,

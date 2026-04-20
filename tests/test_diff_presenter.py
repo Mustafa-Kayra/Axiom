@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock
 import tempfile
 from pathlib import Path
 
-import aye.presenter.diff_presenter as diff_presenter
+import axiomai.presenter.diff_presenter as diff_presenter
 
 
 class TestDiffPresenter(TestCase):
@@ -146,7 +146,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_current_vs_snapshot_success(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_backend.get_file_content_from_snapshot.return_value = "snapshot content\n"
@@ -159,7 +159,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_snapshot_content_missing(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_backend.get_file_content_from_snapshot.return_value = None
@@ -174,7 +174,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_current_file_missing(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_backend.get_file_content_from_snapshot.return_value = "snapshot content\n"
@@ -190,7 +190,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_two_snapshot_success(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_backend.get_file_content_from_snapshot.side_effect = [
@@ -210,7 +210,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_two_snapshot_left_missing(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_backend.get_file_content_from_snapshot.side_effect = [None, "right content\n"]
@@ -240,7 +240,7 @@ class TestDiffPresenter(TestCase):
     @patch('aye.presenter.diff_presenter._diff_console')
     @patch('aye.presenter.diff_presenter.get_backend')
     def test_show_diff_git_snapshot_malformed_ref_string_handled(self, mock_get_backend, mock_console):
-        from aye.model.snapshot.git_ref_backend import GitRefBackend
+        from axiomai.model.snapshot.git_ref_backend import GitRefBackend
         
         mock_backend = MagicMock(spec=GitRefBackend)
         mock_get_backend.return_value = mock_backend

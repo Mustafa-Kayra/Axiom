@@ -10,7 +10,7 @@ import pytest
 import tempfile
 import re
 
-import aye.model.snapshot as snapshot
+import axiomai.model.snapshot as snapshot
 
 
 class TestSnapshot(TestCase):

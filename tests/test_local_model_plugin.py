@@ -7,10 +7,10 @@ from unittest.mock import patch, MagicMock
 
 import httpx
 
-import aye.plugins.local_model
+import axiomai.plugins.local_model
 
-from aye.plugins.local_model import LocalModelPlugin
-from aye.plugins.model_plugin_utils import (
+from axiomai.plugins.local_model import LocalModelPlugin
+from axiomai.plugins.model_plugin_utils import (
     build_user_message,
     parse_llm_response,
 )

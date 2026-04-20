@@ -6,9 +6,9 @@ from rich.panel import Panel
 from rich.prompt import Confirm
 from rich.spinner import Spinner
 
-from aye.presenter.diff_presenter import show_diff
-from aye.model.snapshot import apply_updates, list_snapshots, restore_snapshot
-from aye.presenter.repl_ui import console, print_assistant_response, print_prompt
+from axiomai.presenter.diff_presenter import show_diff
+from axiomai.model.snapshot import apply_updates, list_snapshots, restore_snapshot
+from axiomai.presenter.repl_ui import console, print_assistant_response, print_prompt
 
 
 def _print_step(title, text, simulated_command=None):

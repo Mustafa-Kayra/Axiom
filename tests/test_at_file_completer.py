@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 
 from prompt_toolkit.document import Document
 
-from aye.plugins.at_file_completer import AtFileCompleter, AtFileCompleterPlugin, AtFileCompleterWrapper
+from axiomai.plugins.at_file_completer import AtFileCompleter, AtFileCompleterPlugin, AtFileCompleterWrapper
 
 
 class TestAtFileCompleter(TestCase):

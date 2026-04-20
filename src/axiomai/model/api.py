@@ -6,8 +6,8 @@ from typing import Any, Dict, Optional, Callable
 from rich import print as rprint
 
 import httpx
-from aye.model.auth import get_token, get_user_config
-from aye.model.config import DEFAULT_MAX_OUTPUT_TOKENS
+from axiomai.model.auth import get_token, get_user_config
+from axiomai.model.config import DEFAULT_MAX_OUTPUT_TOKENS
 
 
 class ApiError(Exception):

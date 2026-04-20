@@ -4,8 +4,8 @@ from unittest.mock import patch, MagicMock
 import typer
 from typer.testing import CliRunner
 
-import aye.controller.commands as commands
-from aye.__main__ import app
+import axiomai.controller.commands as commands
+from axiomai.__main__ import app
 
 runner = CliRunner()
 

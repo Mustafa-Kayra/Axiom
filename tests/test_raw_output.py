@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch
 
-from aye.presenter.raw_output import (
+from axiomai.presenter.raw_output import (
     print_assistant_response_raw,
     _RAW_BEGIN,
     _RAW_END,

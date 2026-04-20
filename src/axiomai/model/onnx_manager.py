@@ -68,7 +68,7 @@ def _download_model_sync():
 
     # Imports trigger model download as a side effect
     from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2  # noqa: F401 pylint: disable=import-outside-toplevel,unused-import
-    from aye.model.vector_db import suppress_stdout_stderr  # noqa: F401 pylint: disable=import-outside-toplevel,unused-import
+    from axiomai.model.vector_db import suppress_stdout_stderr  # noqa: F401 pylint: disable=import-outside-toplevel,unused-import
 
     try:
         with _lock:

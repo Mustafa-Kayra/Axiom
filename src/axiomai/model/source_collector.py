@@ -3,7 +3,7 @@ from typing import List, Tuple
 import pathspec
 import platform
 
-from aye.model.config import DEFAULT_IGNORE_SET, SMALL_PROJECT_FILE_LIMIT
+from axiomai.model.config import DEFAULT_IGNORE_SET, SMALL_PROJECT_FILE_LIMIT
 
 
 def _load_ignore_patterns(root_dir: Path) -> pathspec.PathSpec:

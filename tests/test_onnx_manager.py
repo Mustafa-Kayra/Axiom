@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import MagicMock, patch
 
-import aye.model.onnx_manager as onnx_manager
+import axiomai.model.onnx_manager as onnx_manager
 
 
 class TestOnnxManager(unittest.TestCase):

@@ -6,7 +6,7 @@ import os
 import sys
 
 try:
-    from aye.controller.util import (
+    from axiomai.controller.util import (
         find_project_root,
         discover_agents_file,
         _try_read_agents,
@@ -16,7 +16,7 @@ try:
 except ImportError:
     project_root = Path(__file__).resolve().parent.parent.parent
     sys.path.insert(0, str(project_root))
-    from aye.controller.util import (
+    from axiomai.controller.util import (
         find_project_root,
         discover_agents_file,
         _try_read_agents,

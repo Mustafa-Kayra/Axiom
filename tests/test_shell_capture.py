@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock, patch
 from datetime import datetime
 
-from aye.controller.shell_capture import (
+from axiomai.controller.shell_capture import (
     truncate_output,
     _trim_front_bytes,
     enforce_byte_limit,

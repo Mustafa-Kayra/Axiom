@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-import aye.model.index_manager.index_manager as index_manager
+import axiomai.model.index_manager.index_manager as index_manager
 
 
 def _patch_coordinator_properties(monkeypatch, coord, *, state: dict):

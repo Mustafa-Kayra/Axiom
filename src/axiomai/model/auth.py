@@ -14,7 +14,7 @@ TOKEN_FILE = Path(os.getenv("AYE_TOKEN_FILE")) if os.getenv("AYE_TOKEN_FILE") el
 
 
 def _parse_user_config() -> dict[str, str]:
-    """Parse ~/.ayecfg or value from AYE_TOKEN_FILE environment variable into a dict for the [default] section."""
+    """Parse ~/.ayecfg or value from axiomai.TOKEN_FILE environment variable into a dict for the [default] section."""
     config: dict[str, str] = {}
     if not TOKEN_FILE.is_file():
         return config
@@ -80,7 +80,7 @@ def delete_user_config(key: str) -> None:
 
 
 def store_token(token: str) -> None:
-    """Persist the token in ~/.ayecfg or value from AYE_TOKEN_FILE environment variable (unless AYE_TOKEN is set)."""
+    """Persist the token in ~/.ayecfg or value from axiomai.TOKEN_FILE environment variable (unless AYE_TOKEN is set)."""
     token = token.strip()
     set_user_config("token", token)
 
@@ -137,7 +137,7 @@ def login_flow() -> None:
     Small login flow:
     1. Prompt user to obtain token at https://ayechat.ai
     2. User enters/pastes the token in terminal (hidden input)
-    3. Save the token to ~/.ayecfg or value from AYE_TOKEN_FILE environment variable (if AYE_TOKEN not set)
+    3. Save the token to ~/.ayecfg or value from axiomai.TOKEN_FILE environment variable (if AYE_TOKEN not set)
     """
     rprint("[yellow]Obtain your personal access token at https://ayechat.ai[/]")
     token = typer.prompt("Paste your token", hide_input=True)

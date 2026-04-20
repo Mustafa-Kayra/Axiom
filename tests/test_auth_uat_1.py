@@ -5,9 +5,9 @@ from unittest.mock import patch
 import typer
 import os
 
-import aye.model.auth as auth
-import aye.controller.commands as commands
-import aye.__main__ as main_cli
+import axiomai.model.auth as auth
+import axiomai.controller.commands as commands
+import axiomai.__main__ as main_cli
 
 
 @pytest.fixture
