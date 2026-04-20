@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ayechat"
 dynamic = ["version"]
-description = "Aye Chat: Terminal-first AI Code Generator"
+description = "Axiom: Your Coding Assistant"
 readme = "README.md"
 requires-python = ">=3.10, <3.14"
 license = {text = "MIT"}
@@ -24,8 +24,8 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://ayechat.ai"
-Repository = "https://github.com/acrotron/aye-chat"
-Issues = "https://github.com/acrotron/aye-chat/issues"
+Repository = "https://github.com/Mustafa-Kayra"
+Issues = "https://github.com/Mustafa-Kayra/issues"
 
 [project.optional-dependencies]
 # Optional development dependencies (tests, linting, etc.)
@@ -38,7 +38,7 @@ dev = [
 
 [project.scripts]
 # Console script – after installation `aye` will be on the PATH
-aye = "aye.__main__:app"
+axiom = "aye.__main__:app"
 
 [tool.setuptools]
 # Configuration for setuptools
