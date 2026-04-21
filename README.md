@@ -1,4 +1,4 @@
-# Axiom: AI-powered coding assistant <img src="https://flagcdn.com/16x12/us.png" width="20" align="top"/> <img src="https://flagcdn.com/16x12/ua.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/nl.png" width="20" align="top" /> <img src="https://flagcdn.com/16x12/eu.png" width="20" align="top"/>
+# Axiom is best coding assistant for you.
 
 **Your terminal, but with AI. Edit files, run commands, chat with AI - all in one session.**
 
