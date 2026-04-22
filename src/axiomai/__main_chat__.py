@@ -1,10 +1,4 @@
-"""
-Entry point wrapper for Windows installer.
-Launches directly into 'aye chat' mode if no arguments provided.
 
-- No args: aye.exe -> aye chat
-- With args: aye.exe chat -r <path> -> aye chat -r <path> (passed through)
-"""
 import sys
 
 # Fix Windows console encoding for PyInstaller frozen apps
