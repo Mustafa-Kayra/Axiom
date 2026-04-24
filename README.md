@@ -70,7 +70,7 @@ These commands provide a comprehensive system for reviewing, managing, and rever
 
 ```bash
 # In your project directory:
-Axiom
+axiomai chat
 
 > refactor this to use dependency injection
 > pytest
@@ -89,9 +89,9 @@ Axiom
 ### Starting a Session
 
 ```bash
-Axiom                          # Start chat with auto-detected files
-Axiom --root ./src             # Specify a different project root
-Axiom --include "*.js,*.css"   # Manually specify which files to include
+axiomai chat                          # Start chat with auto-detected files
+axiomai chat --root ./src             # Specify a different project root
+axiomai chat --include "*.js,*.css"   # Manually specify which files to include
 ```
 
 ### In-Chat Commands
@@ -172,10 +172,10 @@ The core experience is enhanced by plugins:
 
 ```bash
 # Run directly without installing
-nix run github:acrotron/aye-chat
+nix run github:Mustafa-Kayra/Axiom
 
 # Or install to your profile
-nix profile install github:acrotron/aye-chat
+nix profile install github:Mustafa-Kayra/Axiom
 ```
 
 </details>
