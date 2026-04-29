@@ -1,14 +1,21 @@
 import os
+import base64
+import json
 import shlex
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Any, List
+from urllib.parse import urlparse, urlunparse
 
+import httpx
 from prompt_toolkit import PromptSession
 from rich import print as rprint
 from rich.console import Console
 
 from axiomai.model.auth import get_user_config, set_user_config, delete_user_config
-from axiomai.model.config import MODELS
+from axiomai.model.config import CUSTOM_MODELS_KEY, get_custom_models, merge_models_with_user_config
+from axiomai.model.api import BASE_URL
+from axiomai.model.auth import get_token
 from axiomai.presenter.repl_ui import print_error
 from axiomai.controller.llm_invoker import invoke_llm
 from axiomai.controller.llm_handler import process_llm_response, handle_llm_error
@@ -32,7 +39,62 @@ def handle_cd_command(tokens: list[str], conf: Any) -> bool:
 
 
 def handle_model_command(session: Optional[PromptSession], models: list, conf: Any, tokens: list):
-    """Handle the 'model' command for model selection."""
+    """Handle the 'model' command for model selection or adding new models."""
+    # Add new model via user config: 'model add'
+    if len(tokens) > 1 and tokens[1].lower() == "add":
+        if not session:
+            rprint("[red]Error: Interactive session not available for adding models.[/]")
+            return
+
+        try:
+            rprint("\n[bold cyan]Add Custom Model[/]")
+            m_id = session.prompt("Model ID (e.g., openai/gpt-5): ").strip()
+            m_name = session.prompt("Model Name (e.g., My Custom GPT): ").strip()
+            m_type = session.prompt("Model Type [chat/image] (default: chat): ").strip().lower()
+            if not m_type:
+                m_type = "chat"
+            if m_type not in {"chat", "image"}:
+                rprint("[red]Error: Model type must be 'chat' or 'image'.[/]")
+                return
+            
+            if not m_id or not m_name:
+                rprint("[red]Error: Model ID and name cannot be empty.[/]")
+                return
+
+            new_model = {
+                "id": m_id,
+                "name": m_name,
+                "max_prompt_kb": 200,
+                "max_output_tokens": 24000,
+                "context_target_kb": 180,
+                "type": m_type,
+            }
+
+            custom_models = get_custom_models()
+            existing_index = next((i for i, m in enumerate(custom_models) if m.get("id") == m_id), None)
+            if existing_index is not None:
+                custom_models[existing_index] = new_model
+                action = "updated"
+            else:
+                custom_models.insert(0, new_model)
+                action = "added"
+
+            set_user_config(CUSTOM_MODELS_KEY, json.dumps(custom_models, separators=(",", ":")))
+
+            # Refresh global MODELS (in-place) and mirror into the current models list.
+            merged_models = merge_models_with_user_config()
+            models[:] = merged_models
+
+            rprint(f"[green]Custom model {action}: {m_name}[/]")
+            rprint("[dim]Saved to user config (~/.ayecfg), not source files.[/]")
+                
+        except (EOFError, KeyboardInterrupt):
+            rprint("\n[yellow]Operation cancelled.[/]")
+        except Exception as e:
+            rprint(f"[red]Error while adding model: {e}[/]")
+        return
+
+    # Mevcut model seçme mantığı
     if len(tokens) > 1:
         try:
             num = int(tokens[1])
@@ -60,16 +122,18 @@ def handle_model_command(session: Optional[PromptSession], models: list, conf: A
             rprint("[red]Invalid input. Use a number.[/]")
         return
 
+    # Model listeleme ekranı
     current_id = conf.selected_model
     current_name = next((m['name'] for m in models if m['id'] == current_id), "Unknown")
 
     rprint(f"[yellow]Currently selected:[/] {current_name}\n")
-    rprint("[yellow]Available models:[/]")
+    rprint("[yellow]Available models (use 'model add' to add new):[/]")
     for i, m in enumerate(models, 1):
         model_info = f"  {i}. {m['name']}"
         if m.get("type") == "offline":
-            size_gb = m.get("size_gb", 0)
-            model_info += f" [{size_gb}GB download]"
+            model_info += f" [{m.get('size_gb', 0)}GB download]"
+        elif m.get("type") == "image":
+            model_info += " [image]"
         rprint(model_info)
     rprint("")
 
@@ -102,6 +166,199 @@ def handle_model_command(session: Optional[PromptSession], models: list, conf: A
                 rprint("[red]Invalid number.[/]")
         except ValueError:
             rprint("[red]Invalid input.[/]")
+
+
+def _resolve_images_endpoint(api_url: str) -> str:
+    """Resolve an OpenAI-compatible image generation endpoint from llm_api_url."""
+    parsed = urlparse(api_url.strip())
+    path = parsed.path.rstrip("/")
+
+    if path.endswith("/chat/completions"):
+        new_path = path[: -len("/chat/completions")] + "/images/generations"
+    elif path.endswith("/responses"):
+        new_path = path[: -len("/responses")] + "/images/generations"
+    elif path.endswith("/v1"):
+        new_path = path + "/images/generations"
+    else:
+        new_path = path + "/images/generations"
+
+    return urlunparse(parsed._replace(path=new_path))
+
+
+def _get_selected_model_config(models: list[dict[str, Any]], selected_model_id: str) -> Optional[dict[str, Any]]:
+    for model in models:
+        if model.get("id") == selected_model_id:
+            return model
+    return None
+
+
+def _decode_image_payload(body: dict[str, Any]) -> tuple[Optional[bytes], Optional[str]]:
+    """Decode image bytes from common response shapes.
+
+    Supports:
+    - {"data": [{"b64_json": "..."}]} (OpenAI-compatible)
+    - {"data": [{"url": "..."}]} (image URL)
+    - {"image_base64": "..."} (custom hosted APIs)
+    """
+    if body.get("image_base64"):
+        return base64.b64decode(body["image_base64"]), body.get("revised_prompt")
+
+    data = body.get("data") or []
+    if not data:
+        return None, None
+
+    first_item = data[0] or {}
+    if first_item.get("b64_json"):
+        return base64.b64decode(first_item["b64_json"]), first_item.get("revised_prompt")
+
+    if first_item.get("url"):
+        with httpx.Client(timeout=180.0) as client:
+            img_response = client.get(first_item["url"])
+            img_response.raise_for_status()
+            return img_response.content, first_item.get("revised_prompt")
+
+    return None, None
+
+
+def _invoke_hosted_image_api(model_id: str, prompt_text: str, size: str) -> tuple[Optional[bytes], Optional[str], Optional[str]]:
+    """Try Axiom hosted image endpoint with the normal auth token.
+
+    Returns:
+        (image_bytes, revised_prompt, error_message)
+    """
+    token = get_token()
+    if not token:
+        return None, None, "No auth token available"
+
+    endpoint = f"{BASE_URL}/invoke_image"
+    payload = {
+        "model": model_id,
+        "prompt": prompt_text,
+        "size": size,
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    try:
+        with httpx.Client(timeout=180.0) as client:
+            response = client.post(endpoint, json=payload, headers=headers)
+            response.raise_for_status()
+            body = response.json()
+
+        image_bytes, revised_prompt = _decode_image_payload(body)
+        if not image_bytes:
+            return None, None, "Hosted API returned no image payload"
+        return image_bytes, revised_prompt, None
+    except Exception as exc:
+        return None, None, str(exc)
+
+
+def handle_image_command(tokens: list[str], conf: Any, models: list[dict[str, Any]]) -> None:
+    """Handle 'image' command by generating an image via OpenAI-compatible endpoint.
+
+    Usage:
+        image <prompt>
+        image --size 1024x1024 --out art.png <prompt>
+    """
+    if len(tokens) < 2:
+        rprint("[red]Usage:[/] image [--size WxH] [--out filename.png] <prompt>")
+        return
+
+    size = "1024x1024"
+    out_file: Optional[str] = None
+    prompt_parts: list[str] = []
+
+    i = 1
+    while i < len(tokens):
+        token = tokens[i]
+        if token == "--size" and i + 1 < len(tokens):
+            size = tokens[i + 1]
+            i += 2
+            continue
+        if token == "--out" and i + 1 < len(tokens):
+            out_file = tokens[i + 1]
+            i += 2
+            continue
+        prompt_parts.append(token)
+        i += 1
+
+    prompt_text = " ".join(prompt_parts).strip()
+    if not prompt_text:
+        rprint("[red]Error:[/] Prompt cannot be empty.")
+        return
+
+    # Path A (default): Axiom hosted API using the normal auth token.
+    # Path B (fallback): user-provided OpenAI-compatible endpoint from `llm` config.
+    api_url = get_user_config("llm_api_url", "")
+    api_key = get_user_config("llm_api_key", "")
+
+    selected_model_cfg = _get_selected_model_config(models, conf.selected_model)
+    if selected_model_cfg and selected_model_cfg.get("type") not in {None, "chat", "image", "offline"}:
+        rprint("[red]Error:[/] Selected model has unsupported type.")
+        return
+
+    if selected_model_cfg and selected_model_cfg.get("type") == "offline":
+        rprint("[red]Error:[/] Offline models do not support image generation.")
+        return
+
+    try:
+        image_bytes: Optional[bytes] = None
+        revised_prompt: Optional[str] = None
+        hosted_error: Optional[str] = None
+
+        image_bytes, revised_prompt, hosted_error = _invoke_hosted_image_api(
+            model_id=conf.selected_model,
+            prompt_text=prompt_text,
+            size=size,
+        )
+
+        if image_bytes is None and api_url and api_key:
+            endpoint = _resolve_images_endpoint(api_url)
+            payload = {
+                "model": conf.selected_model,
+                "prompt": prompt_text,
+                "size": size,
+                "response_format": "b64_json",
+            }
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+            }
+
+            with httpx.Client(timeout=180.0) as client:
+                response = client.post(endpoint, json=payload, headers=headers)
+                response.raise_for_status()
+                body = response.json()
+
+            image_bytes, revised_prompt = _decode_image_payload(body)
+
+        if image_bytes is None:
+            if api_url and api_key:
+                rprint("[red]Error:[/] Could not decode image payload from provider response.")
+            else:
+                hosted_hint = f" Hosted API error: {hosted_error}" if hosted_error else ""
+                rprint(
+                    "[red]Error:[/] Image generation is not available via hosted API for this model."
+                    f"{hosted_hint}"
+                )
+                rprint("[yellow]Tip:[/] Configure a direct OpenAI-compatible endpoint with `llm` as fallback.")
+            return
+
+        file_name = out_file or f"image_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+        out_path = (conf.root / file_name).resolve()
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_bytes(image_bytes)
+
+        rprint(f"[green]Image generated:[/] {out_path}")
+        if revised_prompt:
+            rprint(f"[dim]Provider revised prompt:[/] {revised_prompt}")
+    except httpx.HTTPStatusError as exc:
+        detail = exc.response.text[:300] if exc.response is not None else str(exc)
+        rprint(f"[red]Image generation failed:[/] {detail}")
+    except Exception as exc:
+        rprint(f"[red]Image generation error:[/] {exc}")
 
 
 def handle_verbose_command(tokens: list):

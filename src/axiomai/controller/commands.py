@@ -13,6 +13,7 @@ from axiomai.model.config import (
     DEFAULT_MODEL_ID,
     SMALL_PROJECT_FILE_LIMIT,
     SMALL_PROJECT_TOTAL_SIZE_LIMIT,
+    merge_models_with_user_config,
 )
 from axiomai.model.snapshot.git_ref_backend import GitRefBackend
 from axiomai.model.source_collector import get_project_files_with_limit
@@ -252,6 +253,10 @@ def initialize_project_context(root: Optional[Path], file_mask: Optional[str], g
     and performing an initial file scan and index.
     """
     conf = SimpleNamespace()
+
+    # Merge built-in models with any custom models from user config.
+    # This updates MODELS in-place so all existing imports see the merged list.
+    merge_models_with_user_config()
 
     # Load verbose config first
     conf.verbose = get_user_config("verbose", "off").lower() == "on"

@@ -385,6 +385,20 @@ def invoke_llm(
     explicit_source_files: Optional[Dict[str, str]] = None
 ) -> LLMResponse:
     """Unified LLM invocation with streaming display and routing."""
+    selected_model_config = _get_model_config(conf.selected_model)
+    if selected_model_config and selected_model_config.get("type") == "image":
+        return LLMResponse(
+            summary=(
+                "The selected model is an image-generation model. "
+                "Use the `image` command instead, for example: "
+                "`image a cinematic skyline at sunset --size 1024x1024`."
+            ),
+            updated_files=[],
+            chat_id=chat_id,
+            source=LLMSource.API,
+            summary_already_printed=False,
+        )
+
     source_files, use_all_files, prompt = _determine_source_files(
         prompt, conf, verbose, explicit_source_files
     )

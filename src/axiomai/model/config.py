@@ -3,6 +3,11 @@
 Stores application configuration constants and settings.
 """
 
+import json
+from typing import Any
+
+from axiomai.model.auth import get_user_config
+
 # Default ignore patterns for file scanning
 # These directories are excluded from indexing and context unless explicitly requested
 DEFAULT_IGNORE_SET = {
@@ -87,9 +92,9 @@ SYSTEM_PROMPT = (
     "- Interactive programs work: `vim`, `nano`, `less`, `top`\n"
     "- Examples: `ls -la`, `git status`, `pytest`\n\n"
     "### Starting a Session:\n"
-    "- `aye chat` - Start chat with auto-detected files\n"
-    "- `aye chat --root ./src` - Specify project root\n"
-    "- `aye chat --include \"*.js,*.css\"` - Manually specify file patterns\n\n"
+    "- `axiomai chat` - Start chat with auto-detected files\n"
+    "- `axiomai chat --root ./src` - Specify project root\n"
+    "- `axiomai chat --include \"*.js,*.css\"` - Manually specify file patterns\n\n"
     "### Plugin System:\n"
     "- Extensible via plugins in `~/.aye/plugins/`\n"
     "- Core plugins: shell_executor, completer, auto_detect_mask, local_model, offline_llm\n"
@@ -157,10 +162,11 @@ MODELS = [
     {"id": "z-ai/glm-5.1", "name": "Z.ai: GLM 5.1", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
     {"id": "minimax/minimax-m2.5", "name": "MiniMax: MiniMax M2.5", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
     {"id": "minimax/minimax-m2.7", "name": "MiniMax: MiniMax M2.7", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
+    {"id": "deepseek/deepseek-v4-pro", "name": "Deepseek: Deepseek V4 Pro", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
+    {"id": "deepseek/deepseek-v4-flash", "name": "Deepseek: Deepseek V4 Flash", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
     {"id": "google/gemini-3-flash-preview", "name": "Google: Gemini 3 Flash Preview", "max_prompt_kb": 340, "max_output_tokens": 32000, "context_target_kb": 250},
     {"id": "openai/gpt-5.1-codex-mini", "name": "OpenAI: GPT-5.1-Codex-Mini", "max_prompt_kb": 220, "max_output_tokens": 32000, "context_target_kb": 200},
     {"id": "moonshotai/kimi-k2-0905", "name": "MoonshotAI: Kimi K2 0905", "max_prompt_kb": 170, "max_output_tokens": 32000, "context_target_kb": 150},
-    {"id": "moonshotai/kimi-k.6", "name": "MoonshotAI: Kimi K6", "max_prompt_kb": 170, "max_output_tokens": 32000, "context_target_kb": 150},
     {"id": "google/gemini-3.1-pro-preview", "name": "Google: Gemini 3.1 Pro Preview", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
     {"id": "anthropic/claude-sonnet-4.5", "name": "Anthropic: Claude Sonnet 4.5", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
     {"id": "anthropic/claude-sonnet-4.6", "name": "Anthropic: Claude Sonnet 4.6", "max_prompt_kb": 340, "max_output_tokens": 24000, "context_target_kb": 250},
@@ -170,7 +176,6 @@ MODELS = [
     {"id": "anthropic/claude-opus-4.5", "name": "Anthropic: Claude Opus 4.5", "max_prompt_kb": 130, "max_output_tokens": 16000, "context_target_kb": 130},
     {"id": "anthropic/claude-opus-4.6", "name": "Anthropic: Claude Opus 4.6", "max_prompt_kb": 130, "max_output_tokens": 16000, "context_target_kb": 130},
     {"id": "anthropic/claude-opus-4.7", "name": "Anthropic: Claude Opus 4.7", "max_prompt_kb": 130, "max_output_tokens": 16000, "context_target_kb": 130},
-    {"id": "openai/gpt-5.5", "name": "OpenAI: GPT-5.5", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
     {"id": "openai/gpt-5.4", "name": "OpenAI: GPT-5.4", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
     {"id": "openai/gpt-5.3-codex", "name": "OpenAI: GPT-5.3-Codex", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
     # Offline models
@@ -179,3 +184,81 @@ MODELS = [
 
 # Default model identifier
 DEFAULT_MODEL_ID = "google/gemini-3-flash-preview"
+
+
+CUSTOM_MODELS_KEY = "custom_models"
+
+
+def _normalize_custom_model(raw_model: Any) -> dict[str, Any] | None:
+    """Validate and normalize a single custom model entry.
+
+    Returns a model dict with required defaults, or None if invalid.
+    """
+    if not isinstance(raw_model, dict):
+        return None
+
+    model_id = str(raw_model.get("id", "")).strip()
+    model_name = str(raw_model.get("name", "")).strip()
+    if not model_id or not model_name:
+        return None
+
+    normalized_model = {
+        "id": model_id,
+        "name": model_name,
+        "max_prompt_kb": int(raw_model.get("max_prompt_kb", 200)),
+        "max_output_tokens": int(raw_model.get("max_output_tokens", 24000)),
+        "context_target_kb": int(raw_model.get("context_target_kb", 180)),
+    }
+
+    model_type = str(raw_model.get("type", "")).strip().lower()
+    if model_type in {"chat", "image", "offline"}:
+        normalized_model["type"] = model_type
+
+    return normalized_model
+
+
+def get_custom_models() -> list[dict[str, Any]]:
+    """Read custom models from user config (~/.ayecfg).
+
+    Expected format for key ``custom_models`` is a JSON array of objects.
+    Invalid JSON or malformed entries are ignored safely.
+    """
+    raw_value = get_user_config(CUSTOM_MODELS_KEY, "[]")
+    if not raw_value:
+        return []
+
+    try:
+        parsed = json.loads(str(raw_value))
+    except (TypeError, json.JSONDecodeError):
+        return []
+
+    if not isinstance(parsed, list):
+        return []
+
+    normalized: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for item in parsed:
+        model = _normalize_custom_model(item)
+        if not model:
+            continue
+        if model["id"] in seen_ids:
+            continue
+        seen_ids.add(model["id"])
+        normalized.append(model)
+
+    return normalized
+
+
+def merge_models_with_user_config() -> list[dict[str, Any]]:
+    """Merge built-in ``MODELS`` with user-defined custom models.
+
+    Custom models are prepended so they appear first in selection lists.
+    Duplicates are resolved by model id, preferring custom entries.
+    The merge is applied in-place so existing imports of ``MODELS`` remain valid.
+    """
+    custom_models = get_custom_models()
+    custom_ids = {m["id"] for m in custom_models}
+
+    merged = custom_models + [m for m in MODELS if m.get("id") not in custom_ids]
+    MODELS[:] = merged
+    return MODELS

@@ -120,6 +120,7 @@ def print_help_message():
         ("Session & Model", ""),
         ("  new", "Start a new chat session (if you want to change the subject)"),
         ("  model", "Select a different model. Selection will persist between sessions."),
+        ("  image", "Generate an image with selected model: image [--size WxH] [--out file.png] <prompt>"),
         ("  llm", "Configure OpenAI-compatible LLM endpoint (URL, key, model). Use 'llm clear' to reset."),
         ("", ""),
 

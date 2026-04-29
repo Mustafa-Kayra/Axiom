@@ -8,6 +8,7 @@ from rich.console import Console
 from axiomai.controller.command_handlers import (
     handle_cd_command,
     handle_model_command,
+    handle_image_command,
     handle_verbose_command,
     handle_debug_command,
     handle_sslverify_command,
@@ -273,6 +274,87 @@ class TestHandleModelCommand:
             printed_strings = [str(c) for c in mock_rprint.call_args_list]
             combined = " ".join(printed_strings)
             assert "Unknown" in combined
+
+    def test_model_add_rejects_invalid_type(self, mock_models, mock_conf):
+        """Test model add fails fast for unsupported model type."""
+        mock_session = Mock(spec=PromptSession)
+        mock_session.prompt = Mock(side_effect=["custom/model", "Custom", "video"])
+
+        with patch('aye.controller.command_handlers.set_user_config') as mock_set:
+            handle_model_command(mock_session, mock_models, mock_conf, ["model", "add"])
+            mock_set.assert_not_called()
+
+    def test_model_add_persists_type(self, mock_models, mock_conf):
+        """Test model add stores custom model with declared type in user config."""
+        mock_session = Mock(spec=PromptSession)
+        mock_session.prompt = Mock(side_effect=["custom/image", "My Image Model", "image"])
+
+        with patch('aye.controller.command_handlers.get_custom_models', return_value=[]), \
+             patch('aye.controller.command_handlers.merge_models_with_user_config', return_value=mock_models), \
+             patch('aye.controller.command_handlers.set_user_config') as mock_set:
+            handle_model_command(mock_session, mock_models, mock_conf, ["model", "add"])
+
+            assert mock_set.called
+            key, value = mock_set.call_args[0]
+            assert key == "custom_models"
+            assert '"type":"image"' in value
+
+
+class TestHandleImageCommand:
+    """Tests for handle_image_command function."""
+
+    @pytest.fixture
+    def mock_conf(self, tmp_path):
+        conf = Mock()
+        conf.root = tmp_path
+        conf.selected_model = "custom/image"
+        return conf
+
+    def test_image_requires_prompt(self, mock_conf):
+        with patch('aye.controller.command_handlers.rprint') as mock_rprint:
+            handle_image_command(["image"], mock_conf, [{"id": "custom/image", "name": "Img", "type": "image"}])
+            printed = " ".join(str(c) for c in mock_rprint.call_args_list)
+            assert "Usage" in printed
+
+    def test_image_hosted_api_failure_without_llm_config(self, mock_conf):
+        with patch('aye.controller.command_handlers.get_user_config', side_effect=["", ""]), \
+             patch('aye.controller.command_handlers._invoke_hosted_image_api', return_value=(None, None, "503")), \
+             patch('aye.controller.command_handlers.rprint') as mock_rprint:
+            handle_image_command(["image", "a", "cat"], mock_conf, [{"id": "custom/image", "name": "Img", "type": "image"}])
+            printed = " ".join(str(c) for c in mock_rprint.call_args_list)
+            assert "hosted API" in printed
+
+    def test_image_generates_file_via_hosted_api_without_llm(self, mock_conf):
+        with patch('aye.controller.command_handlers.get_user_config', side_effect=["", ""]), \
+             patch('aye.controller.command_handlers._invoke_hosted_image_api', return_value=(b"pngbytes", None, None)):
+            handle_image_command(
+                ["image", "--out", "hosted.png", "a", "cat"],
+                mock_conf,
+                [{"id": "custom/image", "name": "Img", "type": "image"}],
+            )
+
+        assert (mock_conf.root / "hosted.png").exists()
+
+    def test_image_generates_file_from_b64(self, mock_conf):
+        fake_response = Mock()
+        fake_response.raise_for_status = Mock()
+        fake_response.json.return_value = {
+            "data": [{"b64_json": "iVBORw0KGgo="}]
+        }
+
+        mock_client = MagicMock()
+        mock_client.__enter__.return_value = mock_client
+        mock_client.post.return_value = fake_response
+
+        with patch('aye.controller.command_handlers.get_user_config', side_effect=["http://localhost:1234/v1", "secret"]), \
+             patch('aye.controller.command_handlers.httpx.Client', return_value=mock_client):
+            handle_image_command(
+                ["image", "--out", "test.png", "a", "cat"],
+                mock_conf,
+                [{"id": "custom/image", "name": "Img", "type": "image"}],
+            )
+
+        assert (mock_conf.root / "test.png").exists()
 
 
 class TestHandleVerboseCommand:

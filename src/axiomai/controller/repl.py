@@ -35,6 +35,7 @@ from axiomai.controller import commands
 from axiomai.controller.command_handlers import (
     handle_cd_command,
     handle_model_command,
+    handle_image_command,
     handle_verbose_command,
     handle_sslverify_command,
     handle_debug_command,
@@ -295,7 +296,7 @@ def _execute_forced_shell_command(command: str, args: List[str], conf: Any) -> N
 def chat_repl(conf: Any) -> None:
     is_first_run = run_first_time_tutorial_if_needed()
 
-    BUILTIN_COMMANDS = ["with", "blog", "new", "history", "diff", "restore", "undo", "keep", "model", "verbose", "debug", "autodiff", "shellcap", "completion", "exit", "quit", ":q", "help", "cd", "db", "llm", "printraw", "raw"]
+    BUILTIN_COMMANDS = ["with", "blog", "image", "new", "history", "diff", "restore", "undo", "keep", "model", "verbose", "debug", "autodiff", "shellcap", "completion", "exit", "quit", ":q", "help", "cd", "db", "llm", "printraw", "raw"]
 
     # Get the completion style setting
     completion_style = get_user_config("completion_style", "readline").lower()
@@ -447,6 +448,9 @@ def chat_repl(conf: Any) -> None:
                     new_chat_id = handle_blog_command(tokens, conf, console, chat_id, chat_id_file)
                     if new_chat_id is not None:
                         chat_id = new_chat_id
+                elif lowered_first == "image":
+                    telemetry.record_command("image", has_args=len(tokens) > 1, prefix=_AYE_PREFIX)
+                    handle_image_command(tokens, conf, MODELS)
                 elif lowered_first in ("printraw", "raw"):
                     telemetry.record_command("printraw", has_args=False, prefix=_AYE_PREFIX)
                     handle_printraw_command()
