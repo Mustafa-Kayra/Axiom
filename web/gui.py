@@ -28,7 +28,7 @@ for candidate in (str(REPO_ROOT), str(WEB_DIR)):
         sys.path.insert(0, candidate)
 
 try:
-    from web.tui import (
+  from web.model_registry import (
         DEFAULT_MAX_TOKENS,
         DEFAULT_MODEL_ID,
         DEFAULT_SYSTEM_PROMPT,
@@ -37,7 +37,7 @@ try:
         select_model,
     )
 except ModuleNotFoundError:
-    from tui import (  # type: ignore
+  from model_registry import (  # type: ignore
         DEFAULT_MAX_TOKENS,
         DEFAULT_MODEL_ID,
         DEFAULT_SYSTEM_PROMPT,
