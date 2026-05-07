@@ -161,7 +161,7 @@ def cli_invoke(
     max_output_tokens: int = DEFAULT_MAX_OUTPUT_TOKENS,
     dry_run: bool = False,
     telemetry: Optional[Dict[str, Any]] = None,
-    poll_interval=2.0,
+    poll_interval=0.5,
     poll_timeout=TIMEOUT,
     on_stream_update: Optional[Callable[..., None]] = None,
 ):

@@ -134,17 +134,33 @@ def _normalize_model_entry(raw_model: Any) -> dict[str, Any] | None:
     return normalized
 
 
-def resolve_chat_completions_url(raw_base_url: str | None) -> str:
-    """Normalize a base URL into a /v1/chat/completions endpoint."""
+def _resolve_openai_endpoint_url(raw_base_url: str | None, endpoint: str) -> str:
+    """Normalize a base URL into a specific OpenAI-style endpoint."""
     base_url = (raw_base_url or DEFAULT_BASE_URL).strip().rstrip("/")
     if not base_url:
         base_url = DEFAULT_BASE_URL
 
-    if base_url.endswith("/chat/completions"):
+    if base_url.endswith("/chat/completions") or base_url.endswith("/responses"):
         return base_url
+
+    if endpoint == "responses":
+        if base_url.endswith("/v1"):
+            return f"{base_url}/responses"
+        return f"{base_url}/v1/responses"
+
     if base_url.endswith("/v1"):
         return f"{base_url}/chat/completions"
     return f"{base_url}/v1/chat/completions"
+
+
+def resolve_chat_completions_url(raw_base_url: str | None) -> str:
+    """Normalize a base URL into a /v1/chat/completions endpoint."""
+    return _resolve_openai_endpoint_url(raw_base_url, "chat")
+
+
+def resolve_responses_url(raw_base_url: str | None) -> str:
+    """Normalize a base URL into a /v1/responses endpoint."""
+    return _resolve_openai_endpoint_url(raw_base_url, "responses")
 
 
 def resolve_api_key(explicit_api_key: str | None = None) -> str:
@@ -198,28 +214,69 @@ def build_messages(system_prompt: str, conversation: Iterable[dict[str, str]], u
     return messages
 
 
-def extract_assistant_text(payload: dict[str, Any]) -> str:
-    """Extract assistant text from an OpenAI-compatible response payload."""
-    choices = payload.get("choices") or []
-    if not choices:
-        raise ValueError("The API response did not include any choices.")
+def build_responses_input(conversation: Iterable[dict[str, str]], user_text: str) -> list[dict[str, str]]:
+    """Build an OpenAI Responses API input payload."""
+    input_items = [dict(message) for message in conversation]
+    input_items.append({"role": "user", "content": user_text})
+    return input_items
 
-    first_choice = choices[0] or {}
-    message = first_choice.get("message") or {}
-    content = message.get("content")
+
+def _extract_text_from_content(content: Any) -> str:
+    """Extract plain text from a Responses or chat/completions content block."""
     if content is None:
-        content = first_choice.get("text") or first_choice.get("delta", {}).get("content")
+        return ""
+
+    if isinstance(content, str):
+        return content.strip()
 
     if isinstance(content, list):
         parts: list[str] = []
         for item in content:
-            if isinstance(item, dict):
-                parts.append(str(item.get("text", "")))
-            else:
-                parts.append(str(item))
+            text = _extract_text_from_content(item)
+            if text:
+                parts.append(text)
         return "".join(parts).strip()
 
-    return str(content or "").strip()
+    if isinstance(content, dict):
+        for key in ("text", "output_text", "content", "value"):
+            text = _extract_text_from_content(content.get(key))
+            if text:
+                return text
+
+    return str(content).strip()
+
+
+def extract_assistant_text(payload: dict[str, Any]) -> str:
+    """Extract assistant text from an OpenAI chat/completions or Responses payload."""
+    output_text = payload.get("output_text")
+    if isinstance(output_text, str) and output_text.strip():
+        return output_text.strip()
+
+    choices = payload.get("choices") or []
+    if choices:
+        first_choice = choices[0] or {}
+        message = first_choice.get("message") or {}
+        content = message.get("content")
+        if content is None:
+            content = first_choice.get("text") or first_choice.get("delta", {}).get("content")
+
+        text = _extract_text_from_content(content)
+        if text:
+            return text
+
+    output = payload.get("output") or []
+    if isinstance(output, list):
+        parts: list[str] = []
+        for item in output:
+            if not isinstance(item, dict):
+                continue
+            text = _extract_text_from_content(item.get("content") or item.get("text"))
+            if text:
+                parts.append(text)
+        if parts:
+            return "".join(parts).strip()
+
+    raise ValueError("The API response did not include any assistant text.")
 
 
 def render_models_table(models: list[dict[str, Any]], active_model_id: str) -> str:
@@ -305,7 +362,7 @@ class AxiomChatTUI:
 
     def _print_welcome(self) -> None:
         print("Axiom Chat TUI")
-        print("OpenAI-compatible /v1/chat/completions terminal UI")
+        print("OpenAI-compatible /v1/chat/completions or /v1/responses terminal UI")
         print("Use /models, /use <n|model-id>, /api <url>, /key <token>, /reset, /quit")
         print()
 
@@ -372,9 +429,14 @@ class AxiomChatTUI:
 
         if command == "api":
             if not argument:
-                print("Usage: /api <base-url-or-full-chat-completions-url>")
+                print("Usage: /api <base-url-or-full-chat-completions-or-responses-url>")
                 return True
-            self.state.api_url = resolve_chat_completions_url(argument)
+            current_mode = "responses" if self.state.api_url.rstrip("/").endswith("/responses") else "chat"
+            self.state.api_url = (
+                resolve_responses_url(argument)
+                if current_mode == "responses"
+                else resolve_chat_completions_url(argument)
+            )
             print(f"API endpoint updated: {self.state.api_url}")
             return True
 
@@ -403,17 +465,31 @@ class AxiomChatTUI:
         return True
 
     def _send_chat_completion(self, user_text: str) -> str:
-        payload = {
-            "model": self.state.active_model["id"],
-            "messages": build_messages(
-                self.state.system_prompt,
-                ({"role": turn.role, "content": turn.content} for turn in self.state.conversation[:-1]),
-                user_text,
-            ),
-            "temperature": self.state.temperature,
-            "max_tokens": self.state.max_tokens,
-            "stream": False,
-        }
+        current_mode = "responses" if self.state.api_url.rstrip("/").endswith("/responses") else "chat"
+        if current_mode == "responses":
+            payload = {
+                "model": self.state.active_model["id"],
+                "instructions": self.state.system_prompt,
+                "input": build_responses_input(
+                    ({"role": turn.role, "content": turn.content} for turn in self.state.conversation[:-1]),
+                    user_text,
+                ),
+                "temperature": self.state.temperature,
+                "max_output_tokens": self.state.max_tokens,
+                "stream": False,
+            }
+        else:
+            payload = {
+                "model": self.state.active_model["id"],
+                "messages": build_messages(
+                    self.state.system_prompt,
+                    ({"role": turn.role, "content": turn.content} for turn in self.state.conversation[:-1]),
+                    user_text,
+                ),
+                "temperature": self.state.temperature,
+                "max_tokens": self.state.max_tokens,
+                "stream": False,
+            }
 
         headers = {"Content-Type": "application/json"}
         if self.state.api_key:
@@ -453,7 +529,7 @@ class AxiomChatTUI:
 def build_argument_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser for the TUI launcher."""
     parser = argparse.ArgumentParser(description="Axiom OpenAI-compatible chat/completions TUI")
-    parser.add_argument("--base-url", default=os.environ.get("AXIOM_TUI_BASE_URL") or os.environ.get("OPENAI_BASE_URL"), help="API base URL or full /v1/chat/completions URL")
+    parser.add_argument("--base-url", default=os.environ.get("AXIOM_TUI_BASE_URL") or os.environ.get("OPENAI_BASE_URL"), help="API base URL or full /v1/chat/completions or /v1/responses URL")
     parser.add_argument("--api-key", default=None, help="API key for this session")
     parser.add_argument("--model", default=None, help="Model number or model id to start with")
     parser.add_argument("--system-prompt", default=DEFAULT_SYSTEM_PROMPT, help="System prompt for the chat session")

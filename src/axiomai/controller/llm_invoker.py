@@ -455,7 +455,7 @@ def invoke_llm(
 
         telemetry_payload = telemetry.build_payload(top_n=20) if telemetry.is_enabled() else None
 
-        streaming_display = StreamingResponseDisplay(on_first_content=stop_spinner)
+        streaming_display = StreamingResponseDisplay(on_first_content=stop_spinner, word_delay=0.0)
         stream_callback = create_streaming_callback(streaming_display)
 
         api_resp = cli_invoke(

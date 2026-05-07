@@ -159,6 +159,7 @@ MODELS = [
     {"id": "x-ai/grok-code-fast-1", "name": "xAI: Grok Code Fast 1", "max_prompt_kb": 150, "max_output_tokens": 32000, "context_target_kb": 120},
     {"id": "x-ai/grok-4.1-fast", "name": "xAI: Grok 4.1 Fast", "max_prompt_kb": 340, "max_output_tokens": 32000, "context_target_kb": 250},
     {"id": "x-ai/grok-4.2", "name": "xAI: Grok 4.2", "max_prompt_kb": 340, "max_output_tokens": 32000, "context_target_kb": 250},
+    {"id": "x-ai/grok-4.3", "name": "xAI: Grok 4.3", "max_prompt_kb": 340, "max_output_tokens": 32000, "context_target_kb": 250},
     {"id": "z-ai/glm-5.1", "name": "Z.ai: GLM 5.1", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
     {"id": "minimax/minimax-m2.5", "name": "MiniMax: MiniMax M2.5", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
     {"id": "minimax/minimax-m2.7", "name": "MiniMax: MiniMax M2.7", "max_prompt_kb": 120, "max_output_tokens": 16000, "context_target_kb": 150},
@@ -177,6 +178,7 @@ MODELS = [
     {"id": "anthropic/claude-opus-4.6", "name": "Anthropic: Claude Opus 4.6", "max_prompt_kb": 130, "max_output_tokens": 16000, "context_target_kb": 130},
     {"id": "anthropic/claude-opus-4.7", "name": "Anthropic: Claude Opus 4.7", "max_prompt_kb": 130, "max_output_tokens": 16000, "context_target_kb": 130},
     {"id": "openai/gpt-5.4", "name": "OpenAI: GPT-5.4", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
+    {"id": "openai/gpt-5.5", "name": "OpenAI: GPT-5.5", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
     {"id": "openai/gpt-5.3-codex", "name": "OpenAI: GPT-5.3-Codex", "max_prompt_kb": 200, "max_output_tokens": 24000, "context_target_kb": 180},
     # Offline models
     {"id": "offline/qwen2.5-coder-7b", "name": "Qwen2.5 Coder 7B (Offline)", "type": "offline", "size_gb": 4.7, "max_prompt_kb": 60, "max_output_tokens": 8000, "context_target_kb": 40},

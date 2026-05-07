@@ -4,10 +4,8 @@ import argparse
 import errno
 import json
 import os
-import pty
 import re
 import sys
-import select
 import subprocess
 import threading
 import webbrowser
@@ -17,6 +15,11 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
+
+# PTY support: Unix/Linux only
+if sys.platform != 'win32':
+    import pty
+    import select
 
 WEB_DIR = Path(__file__).resolve().parent
 REPO_ROOT = WEB_DIR.parent
