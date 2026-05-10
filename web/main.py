@@ -318,7 +318,7 @@ async def messages_endpoint(request: Request):
        return JSONResponse(
             content=response_payload,
             headers={"Content-Type": "application/json; charset=utf-8"}
-        )
+       )
     except Exception as e:
         import traceback
         traceback.print_exc()
