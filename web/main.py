@@ -222,10 +222,9 @@ async def chat_completions(request: Request):
             }
         }
         
-        encoded_json = json.dumps(openai_payload, ensure_ascii=False).encode('utf-8')
-        return Response(
-            content=encoded_json,
-            media_type="application/json"
+        return JSONResponse(
+            content=openai_payload,
+            headers={"Content-Type": "application/json; charset=utf-8"}
         )
     except Exception as e:
         import traceback
@@ -316,10 +315,9 @@ async def messages_endpoint(request: Request):
         }
         
         # Build raw bytes properly encoded
-        encoded_json = json.dumps(response_payload, ensure_ascii=False).encode('utf-8')
-        return Response(
-            content=encoded_json,
-            media_type="application/json" # Let headers default, encoded_json is bytes
+       return JSONResponse(
+            content=response_payload,
+            headers={"Content-Type": "application/json; charset=utf-8"}
         )
     except Exception as e:
         import traceback
